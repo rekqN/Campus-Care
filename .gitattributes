@@ -1,0 +1,15 @@
+# Normalize line endings across machines.
+# Text files are stored with LF in the repo and checked out with LF everywhere,
+# which stops the "LF will be replaced by CRLF" warnings on Windows.
+* text=auto eol=lf
+
+# Windows batch scripts must keep CRLF to run reliably.
+*.bat text eol=crlf
+
+# Treat these as binary (never convert line endings).
+*.jar binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.keystore binary
