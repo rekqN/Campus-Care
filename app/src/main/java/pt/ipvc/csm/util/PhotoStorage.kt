@@ -11,15 +11,18 @@ import java.util.UUID
  */
 object PhotoStorage {
 
-    fun savePhoto(context: Context, source: Uri): String? = try {
-        val dir = File(context.filesDir, "photos").apply { mkdirs() }
-        val dest = File(dir, "${UUID.randomUUID()}.jpg")
-        context.contentResolver.openInputStream(source)?.use { input ->
-            dest.outputStream().use { output -> input.copyTo(output) }
-        } ?: return null
-        dest.absolutePath
-    } catch (e: Exception) {
-        null
+    fun savePhoto(context: Context, source: Uri): String? {
+        return try {
+            val dir = File(context.filesDir, "photos").apply { mkdirs() }
+            val dest = File(dir, "${UUID.randomUUID()}.jpg")
+            val input = context.contentResolver.openInputStream(source) ?: return null
+            input.use { stream ->
+                dest.outputStream().use { output -> stream.copyTo(output) }
+            }
+            dest.absolutePath
+        } catch (e: Exception) {
+            null
+        }
     }
 
     fun delete(path: String?) {

@@ -291,9 +291,9 @@ fun RoleSegmented(
 fun CsmFilterChip(
     label: String,
     selected: Boolean,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    leadingIcon: ImageVector? = null
+    leadingIcon: ImageVector? = null,
+    onClick: () -> Unit
 ) {
     Row(
         modifier = modifier
