@@ -1,5 +1,6 @@
 package pt.ipvc.csm.ui.components
 
+import pt.ipvc.csm.ui.theme.CsmTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,9 +18,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.ipvc.csm.data.local.RequestWithDetails
-import pt.ipvc.csm.ui.theme.CsmTextFaint
-import pt.ipvc.csm.ui.theme.CsmTextMuted
-import pt.ipvc.csm.ui.theme.CsmTextPrimary
 import pt.ipvc.csm.util.DateUtils
 
 /**
@@ -37,7 +35,7 @@ fun RequestCard(
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(20.dp),
-        color = Color.White,
+        color = CsmTheme.colors.surface,
         shadowElevation = 1.dp,
         modifier = modifier.fillMaxWidth()
     ) {
@@ -54,7 +52,7 @@ fun RequestCard(
                 ) {
                     Text(
                         text = request.title,
-                        color = CsmTextPrimary,
+                        color = CsmTheme.colors.textPrimary,
                         fontSize = 14.5.sp,
                         fontWeight = FontWeight.Medium,
                         maxLines = 1,
@@ -63,7 +61,7 @@ fun RequestCard(
                     )
                     Text(
                         text = "#${request.id}",
-                        color = CsmTextFaint,
+                        color = CsmTheme.colors.textFaint,
                         fontSize = 10.5.sp,
                         fontWeight = FontWeight.Medium
                     )
@@ -75,7 +73,7 @@ fun RequestCard(
                 }
                 Text(
                     text = subtitle,
-                    color = CsmTextMuted,
+                    color = CsmTheme.colors.textMuted,
                     fontSize = 12.5.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -91,7 +89,7 @@ fun RequestCard(
                     StatusChip(request.status)
                     Text(
                         text = DateUtils.formatRelative(request.createdAt),
-                        color = CsmTextFaint,
+                        color = CsmTheme.colors.textFaint,
                         fontSize = 11.sp
                     )
                 }

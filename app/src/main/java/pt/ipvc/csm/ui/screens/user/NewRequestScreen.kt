@@ -59,12 +59,9 @@ import pt.ipvc.csm.data.local.CategoryEntity
 import pt.ipvc.csm.data.repository.OpResult
 import pt.ipvc.csm.ui.components.PrimaryButton
 import pt.ipvc.csm.ui.components.iconForKey
+import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
 import pt.ipvc.csm.ui.theme.CsmError
-import pt.ipvc.csm.ui.theme.CsmOutline
-import pt.ipvc.csm.ui.theme.CsmTextMuted
-import pt.ipvc.csm.ui.theme.CsmTextPrimary
-import pt.ipvc.csm.ui.theme.CsmTextSecondary
 import pt.ipvc.csm.util.PhotoStorage
 import pt.ipvc.csm.viewmodel.UserViewModel
 import java.io.File
@@ -140,9 +137,9 @@ fun NewRequestScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onBack) {
-                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTextPrimary)
+                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTheme.colors.textPrimary)
             }
-            Text("Novo pedido", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = CsmTextPrimary)
+            Text("Novo pedido", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
         }
 
         Column(
@@ -157,7 +154,7 @@ fun NewRequestScreen(
             if (categories.isEmpty()) {
                 Text(
                     "Ainda não existem categorias. Pede a um administrador para criar categorias antes de submeteres um pedido.",
-                    color = CsmTextMuted,
+                    color = CsmTheme.colors.textMuted,
                     fontSize = 13.sp
                 )
             }
@@ -229,14 +226,14 @@ fun NewRequestScreen(
                         "${description.length}/$DESCRIPTION_MAX",
                         modifier = Modifier.fillMaxWidth(),
                         fontSize = 10.5.sp,
-                        color = CsmTextMuted
+                        color = CsmTheme.colors.textMuted
                     )
                 },
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Text("Fotografia (opcional)", fontSize = 12.sp, color = CsmTextSecondary)
+            Text("Fotografia (opcional)", fontSize = 12.sp, color = CsmTheme.colors.textSecondary)
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 if (photoUri != null) {
                     Box(modifier = Modifier.size(84.dp)) {
@@ -269,7 +266,7 @@ fun NewRequestScreen(
                     modifier = Modifier
                         .size(84.dp)
                         .clip(RoundedCornerShape(14.dp))
-                        .border(1.5.dp, CsmOutline, RoundedCornerShape(14.dp))
+                        .border(1.5.dp, CsmTheme.colors.outline, RoundedCornerShape(14.dp))
                         .clickable {
                             photoPicker.launch(
                                 PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
@@ -279,7 +276,7 @@ fun NewRequestScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Icon(Icons.Outlined.AddAPhoto, contentDescription = null, tint = CsmBlue, modifier = Modifier.size(24.dp))
-                    Text("Adicionar", fontSize = 10.sp, color = CsmTextMuted)
+                    Text("Adicionar", fontSize = 10.sp, color = CsmTheme.colors.textMuted)
                 }
             }
 

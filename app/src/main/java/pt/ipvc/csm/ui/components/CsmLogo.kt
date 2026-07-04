@@ -15,8 +15,8 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
-import pt.ipvc.csm.ui.theme.CsmSurface
 
 /**
  * The app logo: a location pin (rounded teardrop with a hole), drawn with shapes so it scales
@@ -27,7 +27,7 @@ fun CsmLogo(
     modifier: Modifier = Modifier,
     size: Dp = 54.dp,
     color: Color = CsmBlue,
-    holeColor: Color = CsmSurface
+    holeColor: Color = CsmTheme.colors.surface
 ) {
     Box(modifier.size(size), contentAlignment = Alignment.Center) {
         Box(

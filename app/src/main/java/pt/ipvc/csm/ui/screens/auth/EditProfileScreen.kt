@@ -53,12 +53,11 @@ import pt.ipvc.csm.ui.components.CsmPasswordField
 import pt.ipvc.csm.ui.components.CsmTextField
 import pt.ipvc.csm.ui.components.DangerPillButton
 import pt.ipvc.csm.ui.components.RoleSegmented
+import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
 import pt.ipvc.csm.ui.theme.CsmBlueContainer
 import pt.ipvc.csm.ui.theme.CsmBlueDark
 import pt.ipvc.csm.ui.theme.CsmError
-import pt.ipvc.csm.ui.theme.CsmTextPrimary
-import pt.ipvc.csm.ui.theme.CsmTextSecondary
 import pt.ipvc.csm.util.PhotoStorage
 import pt.ipvc.csm.viewmodel.AuthViewModel
 import java.io.File
@@ -135,13 +134,13 @@ fun EditProfileScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onBack) {
-                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTextPrimary)
+                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTheme.colors.textPrimary)
             }
             Text(
                 "Editar perfil",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
-                color = CsmTextPrimary,
+                color = CsmTheme.colors.textPrimary,
                 modifier = Modifier.weight(1f)
             )
             Text(
@@ -243,7 +242,7 @@ fun EditProfileScreen(
             Text(
                 "Tipo de perfil",
                 fontSize = 12.sp,
-                color = CsmTextSecondary,
+                color = CsmTheme.colors.textSecondary,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 18.dp, bottom = 8.dp)

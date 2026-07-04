@@ -37,9 +37,8 @@ import pt.ipvc.csm.ui.components.CsmPasswordField
 import pt.ipvc.csm.ui.components.CsmTextField
 import pt.ipvc.csm.ui.components.OutlinedPillButton
 import pt.ipvc.csm.ui.components.PrimaryButton
+import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmError
-import pt.ipvc.csm.ui.theme.CsmTextPrimary
-import pt.ipvc.csm.ui.theme.CsmTextTertiary
 import pt.ipvc.csm.viewmodel.AuthViewModel
 
 private fun isEmailValid(email: String): Boolean =
@@ -82,12 +81,12 @@ fun LoginScreen(
         Spacer(Modifier.height(24.dp))
         CsmLogo(size = 60.dp)
         Spacer(Modifier.height(14.dp))
-        Text("CSM", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = CsmTextPrimary)
+        Text("CSM", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = CsmTheme.colors.textPrimary)
         Text(
             "CAMPUS SERVICES MANAGEMENT",
             fontSize = 11.sp,
             fontWeight = FontWeight.Medium,
-            color = CsmTextTertiary,
+            color = CsmTheme.colors.textTertiary,
             modifier = Modifier.padding(top = 6.dp)
         )
 
@@ -96,7 +95,7 @@ fun LoginScreen(
             "Iniciar sessão",
             fontSize = 15.sp,
             fontWeight = FontWeight.Medium,
-            color = CsmTextPrimary,
+            color = CsmTheme.colors.textPrimary,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
@@ -149,7 +148,7 @@ fun LoginScreen(
             HorizontalDivider(modifier = Modifier.weight(1f))
             Text(
                 "ou",
-                color = CsmTextTertiary,
+                color = CsmTheme.colors.textTertiary,
                 fontSize = 11.5.sp,
                 modifier = Modifier.padding(horizontal = 12.dp)
             )

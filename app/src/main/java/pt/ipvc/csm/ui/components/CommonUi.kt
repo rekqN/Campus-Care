@@ -50,13 +50,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.text.input.ImeAction
 import pt.ipvc.csm.model.Role
+import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
 import pt.ipvc.csm.ui.theme.CsmBlueContainer
 import pt.ipvc.csm.ui.theme.CsmBlueDark
 import pt.ipvc.csm.ui.theme.CsmDanger
-import pt.ipvc.csm.ui.theme.CsmOutline
-import pt.ipvc.csm.ui.theme.CsmSurfaceFill
-import pt.ipvc.csm.ui.theme.CsmTextSecondary
 
 /** A rounded square tile holding an icon — used by request cards, detail headers, categories. */
 @Composable
@@ -65,8 +63,8 @@ fun IconTile(
     modifier: Modifier = Modifier,
     tileSize: Dp = 42.dp,
     corner: Dp = 13.dp,
-    background: Color = CsmSurfaceFill,
-    tint: Color = CsmTextSecondary,
+    background: Color = CsmTheme.colors.surfaceFill,
+    tint: Color = CsmTheme.colors.textSecondary,
     iconSize: Dp = 22.dp
 ) {
     Box(
@@ -245,7 +243,7 @@ fun RoleSegmented(
             .fillMaxWidth()
             .height(44.dp)
             .clip(RoundedCornerShape(50))
-            .border(1.dp, CsmOutline, RoundedCornerShape(50))
+            .border(1.dp, CsmTheme.colors.outline, RoundedCornerShape(50))
     ) {
         Role.entries.forEachIndexed { index, role ->
             if (index > 0) {
@@ -253,7 +251,7 @@ fun RoleSegmented(
                     Modifier
                         .width(1.dp)
                         .fillMaxHeight()
-                        .background(CsmOutline)
+                        .background(CsmTheme.colors.outline)
                 )
             }
             val active = role == selected
@@ -277,7 +275,7 @@ fun RoleSegmented(
                 }
                 Text(
                     role.ptLabel,
-                    color = if (active) CsmBlueDark else CsmTextSecondary,
+                    color = if (active) CsmBlueDark else CsmTheme.colors.textSecondary,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Medium
                 )
@@ -301,7 +299,7 @@ fun CsmFilterChip(
             .background(if (selected) CsmBlueContainer else Color.Transparent)
             .then(
                 if (selected) Modifier
-                else Modifier.border(1.dp, CsmOutline, RoundedCornerShape(50))
+                else Modifier.border(1.dp, CsmTheme.colors.outline, RoundedCornerShape(50))
             )
             .clickable(onClick = onClick)
             .padding(horizontal = 12.dp, vertical = 7.dp),
@@ -319,13 +317,13 @@ fun CsmFilterChip(
             Icon(
                 leadingIcon,
                 contentDescription = null,
-                tint = CsmTextSecondary,
+                tint = CsmTheme.colors.textSecondary,
                 modifier = Modifier.size(16.dp)
             )
         }
         Text(
             label,
-            color = if (selected) CsmBlueDark else CsmTextSecondary,
+            color = if (selected) CsmBlueDark else CsmTheme.colors.textSecondary,
             fontSize = 12.5.sp,
             fontWeight = FontWeight.Medium
         )

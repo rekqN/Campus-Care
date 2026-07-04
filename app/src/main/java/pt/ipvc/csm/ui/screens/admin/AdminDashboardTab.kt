@@ -28,10 +28,8 @@ import androidx.compose.ui.unit.sp
 import pt.ipvc.csm.data.local.RequestWithDetails
 import pt.ipvc.csm.model.RequestStatus
 import pt.ipvc.csm.ui.components.RequestCard
+import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
-import pt.ipvc.csm.ui.theme.CsmSurfaceFill
-import pt.ipvc.csm.ui.theme.CsmTextMuted
-import pt.ipvc.csm.ui.theme.CsmTextPrimary
 import pt.ipvc.csm.ui.theme.StatusDoneDot
 import pt.ipvc.csm.ui.theme.StatusRejectedDot
 import pt.ipvc.csm.ui.theme.StatusReviewDot
@@ -66,7 +64,7 @@ fun AdminDashboardTab(
                 color = CsmBlue,
                 letterSpacing = 1.2.sp
             )
-            Text("Painel de pedidos", fontSize = 19.sp, fontWeight = FontWeight.Medium, color = CsmTextPrimary)
+            Text("Painel de pedidos", fontSize = 19.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -80,12 +78,12 @@ fun AdminDashboardTab(
 
         Surface(
             shape = RoundedCornerShape(18.dp),
-            color = Color.White,
+            color = CsmTheme.colors.surface,
             shadowElevation = 1.dp,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(11.dp)) {
-                Text("Pedidos por estado", fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTextPrimary)
+                Text("Pedidos por estado", fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
                 StatusBar("Submetido", submitted, total, StatusSubmittedDot)
                 StatusBar("Em análise", review, total, StatusReviewDot)
                 StatusBar("Concluído", done, total, StatusDoneDot)
@@ -98,7 +96,7 @@ fun AdminDashboardTab(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Recentes", fontSize = 14.sp, fontWeight = FontWeight.Medium, color = CsmTextPrimary)
+            Text("Recentes", fontSize = 14.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
             Text(
                 "Ver todos",
                 fontSize = 12.5.sp,
@@ -111,7 +109,7 @@ fun AdminDashboardTab(
         if (recent.isEmpty()) {
             Text(
                 "Ainda não há pedidos submetidos.",
-                color = CsmTextMuted,
+                color = CsmTheme.colors.textMuted,
                 fontSize = 13.sp,
                 modifier = Modifier.padding(vertical = 16.dp)
             )
@@ -127,7 +125,7 @@ fun AdminDashboardTab(
 private fun StatCard(modifier: Modifier, label: String, value: Int, dotColor: Color) {
     Surface(
         shape = RoundedCornerShape(16.dp),
-        color = Color.White,
+        color = CsmTheme.colors.surface,
         shadowElevation = 1.dp,
         modifier = modifier
     ) {
@@ -139,13 +137,13 @@ private fun StatCard(modifier: Modifier, label: String, value: Int, dotColor: Co
                         .clip(CircleShape)
                         .background(dotColor)
                 )
-                Text(label, fontSize = 11.5.sp, color = CsmTextMuted)
+                Text(label, fontSize = 11.5.sp, color = CsmTheme.colors.textMuted)
             }
             Text(
                 value.toString(),
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold,
-                color = CsmTextPrimary,
+                color = CsmTheme.colors.textPrimary,
                 modifier = Modifier.padding(top = 5.dp)
             )
         }
@@ -156,13 +154,13 @@ private fun StatCard(modifier: Modifier, label: String, value: Int, dotColor: Co
 private fun StatusBar(label: String, value: Int, total: Int, color: Color) {
     val fraction = if (total > 0) value.toFloat() / total else 0f
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-        Text(label, fontSize = 12.5.sp, color = CsmTextMuted, modifier = Modifier.width(82.dp))
+        Text(label, fontSize = 12.5.sp, color = CsmTheme.colors.textMuted, modifier = Modifier.width(82.dp))
         Box(
             modifier = Modifier
                 .weight(1f)
                 .height(8.dp)
                 .clip(RoundedCornerShape(50))
-                .background(CsmSurfaceFill)
+                .background(CsmTheme.colors.surfaceFill)
         ) {
             if (fraction > 0f) {
                 Box(
@@ -178,7 +176,7 @@ private fun StatusBar(label: String, value: Int, total: Int, color: Color) {
             value.toString(),
             fontSize = 12.sp,
             fontWeight = FontWeight.Medium,
-            color = CsmTextPrimary,
+            color = CsmTheme.colors.textPrimary,
             modifier = Modifier.width(24.dp)
         )
     }

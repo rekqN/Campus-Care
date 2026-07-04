@@ -1,5 +1,6 @@
 package pt.ipvc.csm.ui.screens.user
 
+import pt.ipvc.csm.ui.theme.CsmTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,10 +49,6 @@ import pt.ipvc.csm.ui.components.IconTile
 import pt.ipvc.csm.ui.components.StatusChip
 import pt.ipvc.csm.ui.components.iconForKey
 import pt.ipvc.csm.ui.components.paletteFor
-import pt.ipvc.csm.ui.theme.CsmDivider
-import pt.ipvc.csm.ui.theme.CsmTextFaint
-import pt.ipvc.csm.ui.theme.CsmTextPrimary
-import pt.ipvc.csm.ui.theme.CsmTextTertiary
 import pt.ipvc.csm.util.DateUtils
 import pt.ipvc.csm.viewmodel.UserViewModel
 import java.io.File
@@ -81,13 +78,13 @@ fun RequestDetailScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onBack) {
-                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTextPrimary)
+                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTheme.colors.textPrimary)
             }
             Text(
                 "Pedido #${requestId}",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
-                color = CsmTextPrimary
+                color = CsmTheme.colors.textPrimary
             )
         }
 
@@ -110,7 +107,7 @@ fun RequestDetailScreen(
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 IconTile(iconForKey(current.categoryIcon), tileSize = 46.dp, corner = 14.dp)
                 Column {
-                    Text(request.title, fontSize = 16.sp, fontWeight = FontWeight.Medium, color = CsmTextPrimary)
+                    Text(request.title, fontSize = 16.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
                     Spacer(Modifier.height(4.dp))
                     StatusChip(request.status)
                 }
@@ -130,7 +127,7 @@ fun RequestDetailScreen(
 
             Surface(
                 shape = RoundedCornerShape(16.dp),
-                color = Color.White,
+                color = CsmTheme.colors.surface,
                 shadowElevation = 1.dp,
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -141,20 +138,20 @@ fun RequestDetailScreen(
                     InfoRow("Categoria", current.categoryName ?: "Sem categoria")
                     InfoRow("Localização", request.location)
                     InfoRow("Criado em", DateUtils.formatDateTime(request.createdAt))
-                    HorizontalDivider(color = CsmDivider)
+                    HorizontalDivider(color = CsmTheme.colors.divider)
                     Column {
-                        Text("Descrição", fontSize = 12.5.sp, color = CsmTextTertiary)
+                        Text("Descrição", fontSize = 12.5.sp, color = CsmTheme.colors.textTertiary)
                         Text(
                             request.description,
                             fontSize = 13.sp,
-                            color = CsmTextPrimary,
+                            color = CsmTheme.colors.textPrimary,
                             modifier = Modifier.padding(top = 4.dp)
                         )
                     }
                 }
             }
 
-            Text("Estado do pedido", fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTextPrimary)
+            Text("Estado do pedido", fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
             StatusTimeline(history)
 
             if (request.status.isActive) {
@@ -193,15 +190,15 @@ private fun InfoRow(label: String, value: String) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(label, fontSize = 12.5.sp, color = CsmTextTertiary)
-        Text(value, fontSize = 12.5.sp, fontWeight = FontWeight.Medium, color = CsmTextPrimary)
+        Text(label, fontSize = 12.5.sp, color = CsmTheme.colors.textTertiary)
+        Text(value, fontSize = 12.5.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
     }
 }
 
 @Composable
 private fun StatusTimeline(history: List<StatusHistoryWithAuthor>) {
     if (history.isEmpty()) {
-        Text("Sem histórico de estado.", fontSize = 12.sp, color = CsmTextFaint)
+        Text("Sem histórico de estado.", fontSize = 12.sp, color = CsmTheme.colors.textFaint)
         return
     }
     Column {
@@ -220,7 +217,7 @@ private fun StatusTimeline(history: List<StatusHistoryWithAuthor>) {
                             modifier = Modifier
                                 .width(2.dp)
                                 .height(28.dp)
-                                .background(CsmDivider)
+                                .background(CsmTheme.colors.divider)
                         )
                     }
                 }
@@ -229,7 +226,7 @@ private fun StatusTimeline(history: List<StatusHistoryWithAuthor>) {
                     Text(
                         "${DateUtils.formatTimeline(entry.entry.changedAt)} · ${entry.changedByName}",
                         fontSize = 11.sp,
-                        color = CsmTextFaint
+                        color = CsmTheme.colors.textFaint
                     )
                 }
             }

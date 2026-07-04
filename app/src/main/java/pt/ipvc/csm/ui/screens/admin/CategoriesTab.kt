@@ -55,15 +55,11 @@ import pt.ipvc.csm.ui.components.PrimaryButton
 import pt.ipvc.csm.ui.components.categoryIconKeys
 import pt.ipvc.csm.ui.components.iconForKey
 import pt.ipvc.csm.ui.screens.user.EmptyHint
+import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
 import pt.ipvc.csm.ui.theme.CsmBlueContainer
 import pt.ipvc.csm.ui.theme.CsmBlueDark
 import pt.ipvc.csm.ui.theme.CsmError
-import pt.ipvc.csm.ui.theme.CsmOutline
-import pt.ipvc.csm.ui.theme.CsmSurfaceFill
-import pt.ipvc.csm.ui.theme.CsmTextPrimary
-import pt.ipvc.csm.ui.theme.CsmTextSecondary
-import pt.ipvc.csm.ui.theme.CsmTextTertiary
 import pt.ipvc.csm.viewmodel.AdminViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -95,7 +91,7 @@ fun CategoriesTab(
                 "Categorias",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
-                color = CsmTextPrimary,
+                color = CsmTheme.colors.textPrimary,
                 modifier = Modifier.padding(start = 16.dp, top = 12.dp, bottom = 4.dp)
             )
             if (categories.isEmpty()) {
@@ -173,7 +169,7 @@ private fun CategoryRow(item: CategoryWithCount, onEdit: () -> Unit) {
     Surface(
         onClick = onEdit,
         shape = RoundedCornerShape(14.dp),
-        color = Color.White,
+        color = CsmTheme.colors.surface,
         shadowElevation = 1.dp,
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -184,10 +180,10 @@ private fun CategoryRow(item: CategoryWithCount, onEdit: () -> Unit) {
         ) {
             IconTile(iconForKey(item.category.iconKey), tileSize = 38.dp, corner = 11.dp)
             Column(modifier = Modifier.weight(1f)) {
-                Text(item.category.name, fontSize = 14.sp, fontWeight = FontWeight.Medium, color = CsmTextPrimary)
-                Text("${item.requestCount} pedidos", fontSize = 11.sp, color = CsmTextTertiary)
+                Text(item.category.name, fontSize = 14.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
+                Text("${item.requestCount} pedidos", fontSize = 11.sp, color = CsmTheme.colors.textTertiary)
             }
-            Icon(Icons.Outlined.Edit, contentDescription = "Editar", tint = CsmTextTertiary, modifier = Modifier.size(20.dp))
+            Icon(Icons.Outlined.Edit, contentDescription = "Editar", tint = CsmTheme.colors.textTertiary, modifier = Modifier.size(20.dp))
         }
     }
 }
@@ -216,7 +212,7 @@ private fun CategorySheet(
             if (isEditing) "Editar categoria" else "Nova categoria",
             fontSize = 17.sp,
             fontWeight = FontWeight.Medium,
-            color = CsmTextPrimary
+            color = CsmTheme.colors.textPrimary
         )
         OutlinedTextField(
             value = name,
@@ -228,7 +224,7 @@ private fun CategorySheet(
             modifier = Modifier.fillMaxWidth()
         )
 
-        Text("Ícone", fontSize = 12.sp, color = CsmTextSecondary)
+        Text("Ícone", fontSize = 12.sp, color = CsmTheme.colors.textSecondary)
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -240,7 +236,7 @@ private fun CategorySheet(
                     modifier = Modifier
                         .size(44.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(if (selected) CsmBlueContainer else CsmSurfaceFill)
+                        .background(if (selected) CsmBlueContainer else CsmTheme.colors.surfaceFill)
                         .border(
                             width = if (selected) 1.5.dp else 0.dp,
                             color = if (selected) CsmBlue else Color.Transparent,
@@ -252,7 +248,7 @@ private fun CategorySheet(
                     Icon(
                         iconForKey(key),
                         contentDescription = null,
-                        tint = if (selected) CsmBlueDark else CsmTextSecondary,
+                        tint = if (selected) CsmBlueDark else CsmTheme.colors.textSecondary,
                         modifier = Modifier.size(22.dp)
                     )
                 }
@@ -270,7 +266,7 @@ private fun CategorySheet(
                 modifier = Modifier
                     .weight(1f)
                     .height(48.dp)
-            ) { Text("Cancelar", color = CsmTextSecondary) }
+            ) { Text("Cancelar", color = CsmTheme.colors.textSecondary) }
             PrimaryButton(
                 text = "Guardar",
                 onClick = onSave,

@@ -38,11 +38,9 @@ import pt.ipvc.csm.ui.components.CsmPasswordField
 import pt.ipvc.csm.ui.components.CsmTextField
 import pt.ipvc.csm.ui.components.PrimaryButton
 import pt.ipvc.csm.ui.components.RoleSegmented
+import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
 import pt.ipvc.csm.ui.theme.CsmError
-import pt.ipvc.csm.ui.theme.CsmTextPrimary
-import pt.ipvc.csm.ui.theme.CsmTextSecondary
-import pt.ipvc.csm.ui.theme.CsmTextMuted
 import pt.ipvc.csm.viewmodel.AuthViewModel
 
 private const val MIN_PASSWORD = 6
@@ -90,9 +88,9 @@ fun RegisterScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onNavigateBack) {
-                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTextPrimary)
+                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTheme.colors.textPrimary)
             }
-            Text("Criar conta", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = CsmTextPrimary)
+            Text("Criar conta", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
         }
 
         Column(
@@ -104,7 +102,7 @@ fun RegisterScreen(
             Text(
                 "Preenche os teus dados para começar.",
                 fontSize = 12.5.sp,
-                color = CsmTextMuted,
+                color = CsmTheme.colors.textMuted,
                 modifier = Modifier.padding(bottom = 4.dp)
             )
 
@@ -156,7 +154,7 @@ fun RegisterScreen(
             Text(
                 "Tipo de perfil",
                 fontSize = 12.sp,
-                color = CsmTextSecondary,
+                color = CsmTheme.colors.textSecondary,
                 modifier = Modifier.padding(top = 18.dp, bottom = 8.dp)
             )
             RoleSegmented(selected = role, onSelect = { role = it })
@@ -181,7 +179,7 @@ fun RegisterScreen(
                     .padding(top = 14.dp, bottom = 16.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text("Já tens conta? ", fontSize = 12.5.sp, color = CsmTextMuted)
+                Text("Já tens conta? ", fontSize = 12.5.sp, color = CsmTheme.colors.textMuted)
                 Text(
                     "Entrar",
                     fontSize = 12.5.sp,

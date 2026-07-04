@@ -1,27 +1,27 @@
 package pt.ipvc.csm.ui.theme
 
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-// Brand
+// Brand (shared by light & dark)
 val CsmBlue = Color(0xFF1D5FD6)
 val CsmBlueDark = Color(0xFF0B3EA8)
 val CsmBlueContainer = Color(0xFFDCE6FF)
 
-// Surfaces & structure
+// Light structure/text values (also feed the light CsmColorScheme below)
 val CsmBackground = Color(0xFFEEF1F8)
 val CsmSurface = Color(0xFFFBFBFE)
 val CsmSurfaceFill = Color(0xFFEEF2F8)
 val CsmOutline = Color(0xFFC4C7D0)
 val CsmDivider = Color(0xFFF0F2F6)
-
-// Text
 val CsmTextPrimary = Color(0xFF14161B)
 val CsmTextSecondary = Color(0xFF45464F)
 val CsmTextMuted = Color(0xFF5A6472)
 val CsmTextTertiary = Color(0xFF7A8494)
 val CsmTextFaint = Color(0xFF98A1B1)
 
-// Status — background / foreground / dot
+// Status — background / foreground / dot (kept identical across themes)
 val StatusSubmittedBg = Color(0xFFDCE6FF)
 val StatusSubmittedFg = Color(0xFF0B3EA8)
 val StatusSubmittedDot = Color(0xFF1D5FD6)
@@ -44,3 +44,49 @@ val StatusCancelledDot = Color(0xFF8A93A3)
 
 val CsmError = Color(0xFFD3352B)
 val CsmDanger = Color(0xFFA3160F)
+
+/**
+ * The app's semantic colors that change between light and dark. Accessed in composables via
+ * `CsmTheme.colors.*`. Brand and status colors stay constant, so they live as plain values above.
+ */
+@Immutable
+data class CsmColorScheme(
+    val background: Color,
+    val surface: Color,
+    val surfaceFill: Color,
+    val outline: Color,
+    val divider: Color,
+    val textPrimary: Color,
+    val textSecondary: Color,
+    val textMuted: Color,
+    val textTertiary: Color,
+    val textFaint: Color
+)
+
+val LightCsmColors = CsmColorScheme(
+    background = CsmBackground,
+    surface = Color.White,
+    surfaceFill = CsmSurfaceFill,
+    outline = CsmOutline,
+    divider = CsmDivider,
+    textPrimary = CsmTextPrimary,
+    textSecondary = CsmTextSecondary,
+    textMuted = CsmTextMuted,
+    textTertiary = CsmTextTertiary,
+    textFaint = CsmTextFaint
+)
+
+val DarkCsmColors = CsmColorScheme(
+    background = Color(0xFF0E1116),
+    surface = Color(0xFF1A1F27),
+    surfaceFill = Color(0xFF262C36),
+    outline = Color(0xFF3A414D),
+    divider = Color(0xFF2A2F39),
+    textPrimary = Color(0xFFECEEF3),
+    textSecondary = Color(0xFFC4CAD4),
+    textMuted = Color(0xFFAAB2BF),
+    textTertiary = Color(0xFF8A93A1),
+    textFaint = Color(0xFF6C7482)
+)
+
+val LocalCsmColors = staticCompositionLocalOf { LightCsmColors }

@@ -42,6 +42,10 @@ class CsmRepository(
 
     val currentUserId: Flow<Long?> = session.currentUserId
 
+    val darkMode: Flow<Boolean> = session.darkMode
+
+    suspend fun setDarkMode(enabled: Boolean) = session.setDarkMode(enabled)
+
     fun observeUser(id: Long): Flow<UserEntity?> = userDao.observeById(id)
 
     suspend fun getUser(id: Long): UserEntity? = userDao.getById(id)

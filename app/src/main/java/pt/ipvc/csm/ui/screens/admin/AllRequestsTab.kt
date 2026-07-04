@@ -1,5 +1,6 @@
 package pt.ipvc.csm.ui.screens.admin
 
+import pt.ipvc.csm.ui.theme.CsmTheme
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,7 +27,6 @@ import pt.ipvc.csm.ui.components.CsmSearchBar
 import pt.ipvc.csm.ui.components.RequestCard
 import pt.ipvc.csm.ui.screens.user.EmptyHint
 import pt.ipvc.csm.ui.screens.user.matchesQuery
-import pt.ipvc.csm.ui.theme.CsmTextPrimary
 
 @Composable
 fun AllRequestsTab(
@@ -52,7 +52,7 @@ fun AllRequestsTab(
                 "Todos os pedidos",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
-                color = CsmTextPrimary,
+                color = CsmTheme.colors.textPrimary,
                 modifier = Modifier.padding(vertical = 4.dp)
             )
         }

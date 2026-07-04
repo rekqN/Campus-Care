@@ -3,6 +3,7 @@ package pt.ipvc.csm.data.session
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -29,7 +30,16 @@ class SessionManager(private val context: Context) {
         context.dataStore.edit { it.remove(KEY_USER_ID) }
     }
 
+    val darkMode: Flow<Boolean> = context.dataStore.data.map { prefs ->
+        prefs[KEY_DARK_MODE] ?: false
+    }
+
+    suspend fun setDarkMode(enabled: Boolean) {
+        context.dataStore.edit { it[KEY_DARK_MODE] = enabled }
+    }
+
     companion object {
         private val KEY_USER_ID = longPreferencesKey("user_id")
+        private val KEY_DARK_MODE = booleanPreferencesKey("dark_mode")
     }
 }

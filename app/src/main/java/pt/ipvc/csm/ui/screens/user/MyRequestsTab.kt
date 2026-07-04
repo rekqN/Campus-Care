@@ -1,5 +1,6 @@
 package pt.ipvc.csm.ui.screens.user
 
+import pt.ipvc.csm.ui.theme.CsmTheme
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,7 +27,6 @@ import pt.ipvc.csm.model.RequestStatus
 import pt.ipvc.csm.ui.components.CsmFilterChip
 import pt.ipvc.csm.ui.components.CsmSearchBar
 import pt.ipvc.csm.ui.components.RequestCard
-import pt.ipvc.csm.ui.theme.CsmTextPrimary
 
 /** Returns true if the request matches a free-text query over title/location/category. */
 internal fun RequestWithDetails.matchesQuery(query: String): Boolean {
@@ -64,7 +64,7 @@ fun MyRequestsTab(
                 "Os meus pedidos",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
-                color = CsmTextPrimary,
+                color = CsmTheme.colors.textPrimary,
                 modifier = Modifier.padding(vertical = 4.dp)
             )
         }

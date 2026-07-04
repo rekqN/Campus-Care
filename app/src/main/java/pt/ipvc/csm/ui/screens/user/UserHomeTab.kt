@@ -32,9 +32,8 @@ import pt.ipvc.csm.data.local.UserEntity
 import pt.ipvc.csm.model.RequestStatus
 import pt.ipvc.csm.ui.components.RequestCard
 import pt.ipvc.csm.ui.components.UserAvatar
+import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
-import pt.ipvc.csm.ui.theme.CsmTextMuted
-import pt.ipvc.csm.ui.theme.CsmTextPrimary
 import pt.ipvc.csm.ui.theme.StatusDoneDot
 import pt.ipvc.csm.ui.theme.StatusReviewDot
 
@@ -60,8 +59,8 @@ fun UserHomeTab(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {
-                Text("Olá,", color = CsmTextMuted, fontSize = 12.sp)
-                Text(user.name, color = CsmTextPrimary, fontSize = 19.sp, fontWeight = FontWeight.Medium)
+                Text("Olá,", color = CsmTheme.colors.textMuted, fontSize = 12.sp)
+                Text(user.name, color = CsmTheme.colors.textPrimary, fontSize = 19.sp, fontWeight = FontWeight.Medium)
             }
             UserAvatar(name = user.name, photoUri = user.photoUri, size = 42.dp)
         }
@@ -79,7 +78,7 @@ fun UserHomeTab(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Pedidos recentes", fontSize = 14.sp, fontWeight = FontWeight.Medium, color = CsmTextPrimary)
+            Text("Pedidos recentes", fontSize = 14.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
             Text(
                 "Ver todos",
                 fontSize = 12.5.sp,
@@ -142,7 +141,7 @@ private fun NewRequestCta(onClick: () -> Unit) {
 private fun StatCard(modifier: Modifier, value: String, label: String, valueColor: Color) {
     Surface(
         shape = RoundedCornerShape(16.dp),
-        color = Color.White,
+        color = CsmTheme.colors.surface,
         shadowElevation = 1.dp,
         modifier = modifier
     ) {
@@ -151,7 +150,7 @@ private fun StatCard(modifier: Modifier, value: String, label: String, valueColo
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(value, color = valueColor, fontSize = 22.sp, fontWeight = FontWeight.Bold)
-            Text(label, color = CsmTextMuted, fontSize = 11.sp)
+            Text(label, color = CsmTheme.colors.textMuted, fontSize = 11.sp)
         }
     }
 }
@@ -160,7 +159,7 @@ private fun StatCard(modifier: Modifier, value: String, label: String, valueColo
 fun EmptyHint(text: String) {
     Text(
         text = text,
-        color = CsmTextMuted,
+        color = CsmTheme.colors.textMuted,
         fontSize = 13.sp,
         modifier = Modifier
             .fillMaxWidth()

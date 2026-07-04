@@ -51,16 +51,12 @@ import pt.ipvc.csm.ui.components.DangerPillButton
 import pt.ipvc.csm.ui.components.IconTile
 import pt.ipvc.csm.ui.components.PrimaryButton
 import pt.ipvc.csm.ui.components.iconForKey
+import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
 import pt.ipvc.csm.ui.theme.CsmBlueContainer
 import pt.ipvc.csm.ui.theme.CsmBlueDark
 import pt.ipvc.csm.ui.theme.CsmDanger
-import pt.ipvc.csm.ui.theme.CsmDivider
 import pt.ipvc.csm.ui.theme.CsmError
-import pt.ipvc.csm.ui.theme.CsmOutline
-import pt.ipvc.csm.ui.theme.CsmTextPrimary
-import pt.ipvc.csm.ui.theme.CsmTextSecondary
-import pt.ipvc.csm.ui.theme.CsmTextTertiary
 import pt.ipvc.csm.util.DateUtils
 import pt.ipvc.csm.viewmodel.AdminViewModel
 import java.io.File
@@ -88,13 +84,13 @@ fun AdminRequestDetailScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onBack) {
-                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTextPrimary)
+                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTheme.colors.textPrimary)
             }
             Text(
                 "Pedido #$requestId",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
-                color = CsmTextPrimary,
+                color = CsmTheme.colors.textPrimary,
                 modifier = Modifier.weight(1f)
             )
             IconButton(onClick = { confirmDelete = true }) {
@@ -123,11 +119,11 @@ fun AdminRequestDetailScreen(
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 IconTile(iconForKey(current.categoryIcon), tileSize = 46.dp, corner = 14.dp)
                 Column {
-                    Text(request.title, fontSize = 16.sp, fontWeight = FontWeight.Medium, color = CsmTextPrimary)
+                    Text(request.title, fontSize = 16.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
                     Text(
                         "${current.categoryName ?: "Sem categoria"} · por ${current.userName}",
                         fontSize = 12.sp,
-                        color = CsmTextTertiary
+                        color = CsmTheme.colors.textTertiary
                     )
                 }
             }
@@ -146,27 +142,27 @@ fun AdminRequestDetailScreen(
 
             Surface(
                 shape = RoundedCornerShape(16.dp),
-                color = Color.White,
+                color = CsmTheme.colors.surface,
                 shadowElevation = 1.dp,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     InfoRow("Localização", request.location)
                     InfoRow("Criado em", DateUtils.formatDateTime(request.createdAt))
-                    HorizontalDivider(color = CsmDivider)
+                    HorizontalDivider(color = CsmTheme.colors.divider)
                     Column {
-                        Text("Descrição", fontSize = 12.5.sp, color = CsmTextTertiary)
+                        Text("Descrição", fontSize = 12.5.sp, color = CsmTheme.colors.textTertiary)
                         Text(
                             request.description,
                             fontSize = 13.sp,
-                            color = CsmTextPrimary,
+                            color = CsmTheme.colors.textPrimary,
                             modifier = Modifier.padding(top = 4.dp)
                         )
                     }
                 }
             }
 
-            Text("Alterar estado", fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTextPrimary)
+            Text("Alterar estado", fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -219,8 +215,8 @@ private fun InfoRow(label: String, value: String) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(label, fontSize = 12.5.sp, color = CsmTextTertiary)
-        Text(value, fontSize = 12.5.sp, fontWeight = FontWeight.Medium, color = CsmTextPrimary)
+        Text(label, fontSize = 12.5.sp, color = CsmTheme.colors.textTertiary)
+        Text(value, fontSize = 12.5.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
     }
 }
 
@@ -229,10 +225,10 @@ private fun StateChoiceChip(label: String, selected: Boolean, onClick: () -> Uni
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(50))
-            .background(if (selected) CsmBlueContainer else Color.White)
+            .background(if (selected) CsmBlueContainer else CsmTheme.colors.surface)
             .border(
                 width = if (selected) 1.5.dp else 1.dp,
-                color = if (selected) CsmBlue else CsmOutline,
+                color = if (selected) CsmBlue else CsmTheme.colors.outline,
                 shape = RoundedCornerShape(50)
             )
             .clickable(onClick = onClick)
@@ -245,7 +241,7 @@ private fun StateChoiceChip(label: String, selected: Boolean, onClick: () -> Uni
         }
         Text(
             label,
-            color = if (selected) CsmBlueDark else CsmTextSecondary,
+            color = if (selected) CsmBlueDark else CsmTheme.colors.textSecondary,
             fontSize = 12.5.sp,
             fontWeight = FontWeight.Medium
         )

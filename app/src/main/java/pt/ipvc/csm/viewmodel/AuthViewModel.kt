@@ -36,6 +36,13 @@ class AuthViewModel(private val repository: CsmRepository) : ViewModel() {
             }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), AuthState.Loading)
 
+    val darkMode: StateFlow<Boolean> =
+        repository.darkMode.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
+
+    fun setDarkMode(enabled: Boolean) {
+        viewModelScope.launch { repository.setDarkMode(enabled) }
+    }
+
     fun login(email: String, password: String, onResult: (OpResult) -> Unit) {
         viewModelScope.launch { onResult(repository.login(email, password)) }
     }

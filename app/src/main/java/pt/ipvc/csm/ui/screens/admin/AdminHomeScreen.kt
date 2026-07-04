@@ -25,10 +25,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import pt.ipvc.csm.data.local.UserEntity
 import pt.ipvc.csm.ui.screens.user.ProfileTab
+import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlueContainer
 import pt.ipvc.csm.ui.theme.CsmBlueDark
-import pt.ipvc.csm.ui.theme.CsmTextMuted
-import pt.ipvc.csm.ui.theme.CsmTextPrimary
 import pt.ipvc.csm.viewmodel.AdminViewModel
 import pt.ipvc.csm.viewmodel.AuthViewModel
 
@@ -51,10 +50,11 @@ fun AdminHomeScreen(
     val tab = AdminTab.entries[tabIndex]
     val requests by adminViewModel.allRequests.collectAsState()
     val categories by adminViewModel.categories.collectAsState()
+    val darkMode by authViewModel.darkMode.collectAsState()
 
     Scaffold(
         bottomBar = {
-            NavigationBar(containerColor = Color.White) {
+            NavigationBar(containerColor = CsmTheme.colors.surface) {
                 AdminTab.entries.forEachIndexed { index, item ->
                     NavigationBarItem(
                         selected = tabIndex == index,
@@ -63,10 +63,10 @@ fun AdminHomeScreen(
                         label = { Text(item.label) },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = CsmBlueDark,
-                            selectedTextColor = CsmTextPrimary,
+                            selectedTextColor = CsmTheme.colors.textPrimary,
                             indicatorColor = CsmBlueContainer,
-                            unselectedIconColor = CsmTextMuted,
-                            unselectedTextColor = CsmTextMuted
+                            unselectedIconColor = CsmTheme.colors.textMuted,
+                            unselectedTextColor = CsmTheme.colors.textMuted
                         )
                     )
                 }
@@ -94,6 +94,8 @@ fun AdminHomeScreen(
                 )
                 AdminTab.PROFILE -> ProfileTab(
                     user = user,
+                    darkMode = darkMode,
+                    onToggleDarkMode = authViewModel::setDarkMode,
                     onEditProfile = onEditProfile,
                     onLogout = { authViewModel.logout() }
                 )
