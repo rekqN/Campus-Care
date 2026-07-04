@@ -151,6 +151,7 @@ private fun MainNavHost(user: UserEntity, authViewModel: AuthViewModel) {
             val userViewModel: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
             NotificationsScreen(
                 userViewModel = userViewModel,
+                onOpenRequest = { navController.navigate(Routes.requestDetail(it)) },
                 onBack = { navController.popBackStack() }
             )
         }

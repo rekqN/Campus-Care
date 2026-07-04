@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Icon
@@ -36,6 +38,7 @@ import pt.ipvc.csm.viewmodel.UserViewModel
 @Composable
 fun NotificationsScreen(
     userViewModel: UserViewModel,
+    onOpenRequest: (Long) -> Unit,
     onBack: () -> Unit
 ) {
     val notifications by userViewModel.notifications.collectAsState()
@@ -69,7 +72,10 @@ fun NotificationsScreen(
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 items(notifications, key = { it.id }) { notification ->
-                    NotificationRow(notification)
+                    NotificationRow(
+                        notification = notification,
+                        onClick = { notification.requestId?.let(onOpenRequest) }
+                    )
                 }
             }
         }
@@ -77,19 +83,21 @@ fun NotificationsScreen(
 }
 
 @Composable
-private fun NotificationRow(notification: NotificationEntity) {
+private fun NotificationRow(notification: NotificationEntity, onClick: () -> Unit) {
     Surface(
-        shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
+        onClick = onClick,
+        shape = RoundedCornerShape(16.dp),
         color = CsmTheme.colors.surface,
         shadowElevation = 1.dp,
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier.padding(14.dp),
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             IconTile(Icons.Outlined.Notifications)
-            Column(modifier = Modifier.padding(top = 2.dp)) {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     notification.message,
                     fontSize = 13.5.sp,
@@ -102,6 +110,11 @@ private fun NotificationRow(notification: NotificationEntity) {
                     modifier = Modifier.padding(top = 4.dp)
                 )
             }
+            Icon(
+                Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = null,
+                tint = CsmTheme.colors.textTertiary
+            )
         }
     }
 }
