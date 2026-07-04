@@ -55,7 +55,6 @@ import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
 import pt.ipvc.csm.ui.theme.CsmBlueContainer
 import pt.ipvc.csm.ui.theme.CsmBlueDark
-import pt.ipvc.csm.ui.theme.CsmDanger
 import pt.ipvc.csm.ui.theme.CsmError
 import pt.ipvc.csm.util.DateUtils
 import pt.ipvc.csm.viewmodel.AdminViewModel
@@ -93,9 +92,6 @@ fun AdminRequestDetailScreen(
                 color = CsmTheme.colors.textPrimary,
                 modifier = Modifier.weight(1f)
             )
-            IconButton(onClick = { confirmDelete = true }) {
-                Icon(Icons.Outlined.Delete, contentDescription = "Eliminar", tint = CsmDanger)
-            }
         }
 
         val current = details

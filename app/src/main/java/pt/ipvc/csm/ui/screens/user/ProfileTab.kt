@@ -49,7 +49,6 @@ fun ProfileTab(
         Text("Perfil", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
 
         Surface(
-            onClick = onEditProfile,
             shape = RoundedCornerShape(20.dp),
             color = CsmTheme.colors.surface,
             shadowElevation = 1.dp,
@@ -74,11 +73,6 @@ fun ProfileTab(
                         Text(user.role.ptLabel, fontSize = 10.5.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textSecondary)
                     }
                 }
-                Icon(
-                    Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = null,
-                    tint = CsmTheme.colors.textTertiary
-                )
             }
         }
 
