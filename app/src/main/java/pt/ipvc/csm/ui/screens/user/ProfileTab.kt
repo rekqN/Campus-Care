@@ -2,6 +2,7 @@ package pt.ipvc.csm.ui.screens.user
 
 import pt.ipvc.csm.ui.theme.CsmTheme
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +15,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
@@ -38,7 +41,8 @@ fun ProfileTab(
     darkMode: Boolean,
     onToggleDarkMode: (Boolean) -> Unit,
     onEditProfile: () -> Unit,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    onExport: (() -> Unit)? = null
 ) {
     Column(
         modifier = Modifier
@@ -105,14 +109,35 @@ fun ProfileTab(
             shadowElevation = 1.dp,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Row(
-                modifier = Modifier.padding(start = 14.dp, end = 14.dp, top = 4.dp, bottom = 4.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(14.dp)
-            ) {
-                IconTile(Icons.Outlined.DarkMode, tileSize = 38.dp, corner = 11.dp)
-                Text("Modo escuro", fontSize = 14.sp, color = CsmTheme.colors.textPrimary, modifier = Modifier.weight(1f))
-                Switch(checked = darkMode, onCheckedChange = onToggleDarkMode)
+            Column {
+                Row(
+                    modifier = Modifier.padding(start = 14.dp, end = 14.dp, top = 4.dp, bottom = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(14.dp)
+                ) {
+                    IconTile(Icons.Outlined.DarkMode, tileSize = 38.dp, corner = 11.dp)
+                    Text("Modo escuro", fontSize = 14.sp, color = CsmTheme.colors.textPrimary, modifier = Modifier.weight(1f))
+                    Switch(checked = darkMode, onCheckedChange = onToggleDarkMode)
+                }
+                if (onExport != null) {
+                    HorizontalDivider(color = CsmTheme.colors.divider, modifier = Modifier.padding(horizontal = 14.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onExport() }
+                            .padding(14.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(14.dp)
+                    ) {
+                        IconTile(Icons.Outlined.Download, tileSize = 38.dp, corner = 11.dp)
+                        Text("Exportar os meus dados", fontSize = 14.sp, color = CsmTheme.colors.textPrimary, modifier = Modifier.weight(1f))
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = null,
+                            tint = CsmTheme.colors.textTertiary
+                        )
+                    }
+                }
             }
         }
 

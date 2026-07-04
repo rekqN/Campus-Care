@@ -15,6 +15,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Download
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,7 +43,8 @@ import pt.ipvc.csm.ui.theme.StatusSubmittedDot
 fun AdminDashboardTab(
     requests: List<RequestWithDetails>,
     onOpenRequest: (Long) -> Unit,
-    onSeeAllRequests: () -> Unit
+    onSeeAllRequests: () -> Unit,
+    onExport: () -> Unit
 ) {
     val total = requests.size
     fun count(status: RequestStatus) = requests.count { it.request.status == status }
@@ -56,15 +61,20 @@ fun AdminDashboardTab(
             .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Column {
-            Text(
-                "ADMINISTRADOR",
-                fontSize = 10.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = CsmBlue,
-                letterSpacing = 1.2.sp
-            )
-            Text("Painel de pedidos", fontSize = 19.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    "ADMINISTRADOR",
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = CsmBlue,
+                    letterSpacing = 1.2.sp
+                )
+                Text("Painel de pedidos", fontSize = 19.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
+            }
+            IconButton(onClick = onExport) {
+                Icon(Icons.Outlined.Download, contentDescription = "Exportar", tint = CsmTheme.colors.textSecondary)
+            }
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {

@@ -26,12 +26,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import pt.ipvc.csm.data.local.UserEntity
 import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
 import pt.ipvc.csm.ui.theme.CsmBlueContainer
 import pt.ipvc.csm.ui.theme.CsmBlueDark
+import pt.ipvc.csm.util.ExportUtils
 import pt.ipvc.csm.viewmodel.AuthViewModel
 import pt.ipvc.csm.viewmodel.UserViewModel
 
@@ -57,6 +59,7 @@ fun UserHomeScreen(
     val requests by userViewModel.myRequests.collectAsState()
     val darkMode by authViewModel.darkMode.collectAsState()
     val unreadCount by userViewModel.unreadNotifications.collectAsState()
+    val context = LocalContext.current
 
     Scaffold(
         bottomBar = {
@@ -119,7 +122,15 @@ fun UserHomeScreen(
                     darkMode = darkMode,
                     onToggleDarkMode = authViewModel::setDarkMode,
                     onEditProfile = onEditProfile,
-                    onLogout = { authViewModel.logout() }
+                    onLogout = { authViewModel.logout() },
+                    onExport = {
+                        ExportUtils.shareRequestsCsv(
+                            context = context,
+                            requests = requests,
+                            includeAuthor = false,
+                            baseFileName = "meus-pedidos"
+                        )
+                    }
                 )
             }
         }
