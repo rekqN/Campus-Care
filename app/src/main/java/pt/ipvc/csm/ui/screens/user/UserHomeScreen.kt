@@ -49,12 +49,14 @@ fun UserHomeScreen(
     authViewModel: AuthViewModel,
     onOpenRequest: (Long) -> Unit,
     onNewRequest: () -> Unit,
-    onEditProfile: () -> Unit
+    onEditProfile: () -> Unit,
+    onOpenNotifications: () -> Unit
 ) {
     var tabIndex by rememberSaveable { mutableIntStateOf(0) }
     val tab = UserTab.entries[tabIndex]
     val requests by userViewModel.myRequests.collectAsState()
     val darkMode by authViewModel.darkMode.collectAsState()
+    val unreadCount by userViewModel.unreadNotifications.collectAsState()
 
     Scaffold(
         bottomBar = {
@@ -98,9 +100,11 @@ fun UserHomeScreen(
                 UserTab.HOME -> UserHomeTab(
                     user = user,
                     requests = requests,
+                    unreadCount = unreadCount,
                     onNewRequest = onNewRequest,
                     onOpenRequest = onOpenRequest,
-                    onSeeAllRequests = { tabIndex = UserTab.REQUESTS.ordinal }
+                    onSeeAllRequests = { tabIndex = UserTab.REQUESTS.ordinal },
+                    onOpenNotifications = onOpenNotifications
                 )
                 UserTab.REQUESTS -> MyRequestsTab(
                     requests = requests,

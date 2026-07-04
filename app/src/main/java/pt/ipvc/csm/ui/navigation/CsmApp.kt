@@ -26,6 +26,7 @@ import pt.ipvc.csm.ui.screens.auth.EditProfileScreen
 import pt.ipvc.csm.ui.screens.auth.LoginScreen
 import pt.ipvc.csm.ui.screens.auth.RegisterScreen
 import pt.ipvc.csm.ui.screens.user.NewRequestScreen
+import pt.ipvc.csm.ui.screens.user.NotificationsScreen
 import pt.ipvc.csm.ui.screens.user.RequestDetailScreen
 import pt.ipvc.csm.ui.screens.user.UserHomeScreen
 import pt.ipvc.csm.viewmodel.AdminViewModel
@@ -41,6 +42,7 @@ object Routes {
     const val HOME = "home"
     const val EDIT_PROFILE = "edit_profile"
     const val NEW_REQUEST = "new_request"
+    const val NOTIFICATIONS = "notifications"
     const val REQUEST_DETAIL = "request_detail/{requestId}"
     const val ADMIN_REQUEST_DETAIL = "admin_request_detail/{requestId}"
 
@@ -122,7 +124,8 @@ private fun MainNavHost(user: UserEntity, authViewModel: AuthViewModel) {
                     authViewModel = authViewModel,
                     onOpenRequest = { navController.navigate(Routes.requestDetail(it)) },
                     onNewRequest = { navController.navigate(Routes.NEW_REQUEST) },
-                    onEditProfile = { navController.navigate(Routes.EDIT_PROFILE) }
+                    onEditProfile = { navController.navigate(Routes.EDIT_PROFILE) },
+                    onOpenNotifications = { navController.navigate(Routes.NOTIFICATIONS) }
                 )
             }
         }
@@ -141,6 +144,14 @@ private fun MainNavHost(user: UserEntity, authViewModel: AuthViewModel) {
                 userViewModel = userViewModel,
                 onBack = { navController.popBackStack() },
                 onCreated = { navController.popBackStack() }
+            )
+        }
+
+        composable(Routes.NOTIFICATIONS) {
+            val userViewModel: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
+            NotificationsScreen(
+                userViewModel = userViewModel,
+                onBack = { navController.popBackStack() }
             )
         }
 

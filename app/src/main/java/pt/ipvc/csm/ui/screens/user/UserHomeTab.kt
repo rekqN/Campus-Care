@@ -8,15 +8,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,13 +44,16 @@ import pt.ipvc.csm.ui.theme.CsmBlue
 import pt.ipvc.csm.ui.theme.StatusDoneDot
 import pt.ipvc.csm.ui.theme.StatusReviewDot
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserHomeTab(
     user: UserEntity,
     requests: List<RequestWithDetails>,
+    unreadCount: Int,
     onNewRequest: () -> Unit,
     onOpenRequest: (Long) -> Unit,
-    onSeeAllRequests: () -> Unit
+    onSeeAllRequests: () -> Unit,
+    onOpenNotifications: () -> Unit
 ) {
     val submitted = requests.count { it.request.status == RequestStatus.SUBMETIDO }
     val underReview = requests.count { it.request.status == RequestStatus.EM_ANALISE }
@@ -62,6 +72,22 @@ fun UserHomeTab(
                 Text("Olá,", color = CsmTheme.colors.textMuted, fontSize = 12.sp)
                 Text(user.name, color = CsmTheme.colors.textPrimary, fontSize = 19.sp, fontWeight = FontWeight.Medium)
             }
+            BadgedBox(
+                badge = {
+                    if (unreadCount > 0) {
+                        Badge { Text(if (unreadCount > 9) "9+" else "$unreadCount") }
+                    }
+                }
+            ) {
+                IconButton(onClick = onOpenNotifications) {
+                    Icon(
+                        Icons.Outlined.Notifications,
+                        contentDescription = "Notificações",
+                        tint = CsmTheme.colors.textSecondary
+                    )
+                }
+            }
+            Spacer(Modifier.width(4.dp))
             UserAvatar(name = user.name, photoUri = user.photoUri, size = 42.dp)
         }
 

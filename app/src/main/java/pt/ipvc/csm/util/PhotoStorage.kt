@@ -2,6 +2,7 @@ package pt.ipvc.csm.util
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import java.io.File
 import java.util.UUID
 
@@ -21,6 +22,7 @@ object PhotoStorage {
             }
             dest.absolutePath
         } catch (e: Exception) {
+            Log.w("PhotoStorage", "Falha ao guardar a fotografia", e)
             null
         }
     }

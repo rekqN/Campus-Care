@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pt.ipvc.csm.data.local.CategoryEntity
+import pt.ipvc.csm.data.local.NotificationEntity
 import pt.ipvc.csm.data.local.RequestWithDetails
 import pt.ipvc.csm.data.local.StatusHistoryWithAuthor
 import pt.ipvc.csm.data.repository.CsmRepository
@@ -31,6 +32,27 @@ class UserViewModel(private val repository: CsmRepository) : ViewModel() {
                 if (id == null) flowOf(emptyList()) else repository.requestsByUser(id)
             }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    val notifications: StateFlow<List<NotificationEntity>> =
+        repository.currentUserId
+            .flatMapLatest { id ->
+                if (id == null) flowOf(emptyList()) else repository.notificationsForUser(id)
+            }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    val unreadNotifications: StateFlow<Int> =
+        repository.currentUserId
+            .flatMapLatest { id ->
+                if (id == null) flowOf(0) else repository.unreadCountForUser(id)
+            }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
+
+    fun markNotificationsRead() {
+        viewModelScope.launch {
+            val uid = repository.currentUserId.first() ?: return@launch
+            repository.markNotificationsRead(uid)
+        }
+    }
 
     fun requestDetails(id: Long): Flow<RequestWithDetails?> = repository.requestDetails(id)
 

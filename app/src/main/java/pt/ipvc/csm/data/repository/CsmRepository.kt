@@ -6,6 +6,7 @@ import pt.ipvc.csm.data.local.CategoryDao
 import pt.ipvc.csm.data.local.CategoryEntity
 import pt.ipvc.csm.data.local.CategoryWithCount
 import pt.ipvc.csm.data.local.NotificationDao
+import pt.ipvc.csm.data.local.NotificationEntity
 import pt.ipvc.csm.data.local.RequestDao
 import pt.ipvc.csm.data.local.RequestEntity
 import pt.ipvc.csm.data.local.RequestWithDetails
@@ -45,6 +46,16 @@ class CsmRepository(
     val darkMode: Flow<Boolean> = session.darkMode
 
     suspend fun setDarkMode(enabled: Boolean) = session.setDarkMode(enabled)
+
+    // ---- Notifications ----
+
+    fun notificationsForUser(userId: Long): Flow<List<NotificationEntity>> =
+        notificationDao.observeForUser(userId)
+
+    fun unreadCountForUser(userId: Long): Flow<Int> =
+        notificationDao.observeUnreadCount(userId)
+
+    suspend fun markNotificationsRead(userId: Long) = notificationDao.markAllRead(userId)
 
     fun observeUser(id: Long): Flow<UserEntity?> = userDao.observeById(id)
 
@@ -198,6 +209,16 @@ class CsmRepository(
                 changedByUserId = byUserId
             )
         )
+        // Notify the request's owner when someone else (an admin) changed the state.
+        if (request.userId != byUserId) {
+            notificationDao.insert(
+                NotificationEntity(
+                    userId = request.userId,
+                    requestId = requestId,
+                    message = "O teu pedido \"${request.title}\" está agora: ${status.ptLabel}."
+                )
+            )
+        }
         return OpResult.Success
     }
 
