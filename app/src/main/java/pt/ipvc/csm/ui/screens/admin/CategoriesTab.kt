@@ -1,5 +1,7 @@
 package pt.ipvc.csm.ui.screens.admin
 
+import androidx.compose.ui.res.stringResource
+import pt.ipvc.csm.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -88,14 +90,14 @@ fun CategoriesTab(
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
             Text(
-                "Categorias",
+                stringResource(R.string.nav_categories),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
                 color = CsmTheme.colors.textPrimary,
                 modifier = Modifier.padding(start = 16.dp, top = 12.dp, bottom = 4.dp)
             )
             if (categories.isEmpty()) {
-                EmptyHint("Ainda não há categorias. Toca no botão + para criar a primeira.")
+                EmptyHint(stringResource(R.string.empty_categories))
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
@@ -118,7 +120,7 @@ fun CategoriesTab(
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
         ) {
-            Icon(Icons.Filled.Add, contentDescription = "Nova categoria")
+            Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.new_category))
         }
     }
 
@@ -148,17 +150,17 @@ fun CategoriesTab(
     confirmDelete?.let { category ->
         AlertDialog(
             onDismissRequest = { confirmDelete = null },
-            title = { Text("Eliminar categoria") },
-            text = { Text("Eliminar \"${category.name}\"? Os pedidos existentes ficam sem categoria.") },
+            title = { Text(stringResource(R.string.delete_category)) },
+            text = { Text(stringResource(R.string.delete_category_confirm, category.name)) },
             confirmButton = {
                 TextButton(onClick = {
                     adminViewModel.deleteCategory(category) { }
                     confirmDelete = null
                     sheetOpen = false
-                }) { Text("Eliminar", color = CsmError) }
+                }) { Text(stringResource(R.string.delete), color = CsmError) }
             },
             dismissButton = {
-                TextButton(onClick = { confirmDelete = null }) { Text("Voltar") }
+                TextButton(onClick = { confirmDelete = null }) { Text(stringResource(R.string.back)) }
             }
         )
     }
@@ -181,7 +183,7 @@ private fun CategoryRow(item: CategoryWithCount, onEdit: () -> Unit) {
             IconTile(iconForKey(item.category.iconKey), tileSize = 38.dp, corner = 11.dp)
             Column(modifier = Modifier.weight(1f)) {
                 Text(item.category.name, fontSize = 14.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
-                Text("${item.requestCount} pedidos", fontSize = 11.sp, color = CsmTheme.colors.textTertiary)
+                Text(stringResource(R.string.n_requests, item.requestCount), fontSize = 11.sp, color = CsmTheme.colors.textTertiary)
             }
             Icon(Icons.Outlined.Edit, contentDescription = "Editar", tint = CsmTheme.colors.textTertiary, modifier = Modifier.size(20.dp))
         }
@@ -209,7 +211,7 @@ private fun CategorySheet(
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         Text(
-            if (isEditing) "Editar categoria" else "Nova categoria",
+            if (isEditing) stringResource(R.string.edit_category) else stringResource(R.string.new_category),
             fontSize = 17.sp,
             fontWeight = FontWeight.Medium,
             color = CsmTheme.colors.textPrimary
@@ -217,14 +219,14 @@ private fun CategorySheet(
         OutlinedTextField(
             value = name,
             onValueChange = onNameChange,
-            label = { Text("Nome") },
+            label = { Text(stringResource(R.string.name)) },
             singleLine = true,
             isError = error != null,
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier.fillMaxWidth()
         )
 
-        Text("Ícone", fontSize = 12.sp, color = CsmTheme.colors.textSecondary)
+        Text(stringResource(R.string.icon), fontSize = 12.sp, color = CsmTheme.colors.textSecondary)
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -266,9 +268,9 @@ private fun CategorySheet(
                 modifier = Modifier
                     .weight(1f)
                     .height(48.dp)
-            ) { Text("Cancelar", color = CsmTheme.colors.textSecondary) }
+            ) { Text(stringResource(R.string.cancel), color = CsmTheme.colors.textSecondary) }
             PrimaryButton(
-                text = "Guardar",
+                text = stringResource(R.string.save),
                 onClick = onSave,
                 modifier = Modifier.weight(1f)
             )
@@ -286,7 +288,7 @@ private fun CategorySheet(
             ) {
                 Icon(Icons.Outlined.Delete, contentDescription = null, tint = CsmError, modifier = Modifier.size(18.dp))
                 Spacer(Modifier.size(6.dp))
-                Text("Eliminar categoria", color = CsmError, fontSize = 13.sp, fontWeight = FontWeight.Medium)
+                Text(stringResource(R.string.delete_category), color = CsmError, fontSize = 13.sp, fontWeight = FontWeight.Medium)
             }
         }
     }

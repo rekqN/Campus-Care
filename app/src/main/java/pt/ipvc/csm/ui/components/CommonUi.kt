@@ -1,5 +1,7 @@
 package pt.ipvc.csm.ui.components
 
+import androidx.compose.ui.res.stringResource
+import pt.ipvc.csm.R
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -126,7 +128,7 @@ fun CsmPasswordField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    label: String = "Password",
+    label: String = stringResource(R.string.password),
     isError: Boolean = false,
     errorText: String? = null,
     imeAction: ImeAction = ImeAction.Done
@@ -274,7 +276,7 @@ fun RoleSegmented(
                     Spacer(Modifier.width(6.dp))
                 }
                 Text(
-                    role.ptLabel,
+                    roleLabel(role),
                     color = if (active) CsmBlueDark else CsmTheme.colors.textSecondary,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Medium

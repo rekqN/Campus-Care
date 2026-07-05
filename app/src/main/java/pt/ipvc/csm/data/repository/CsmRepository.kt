@@ -47,6 +47,10 @@ class CsmRepository(
 
     suspend fun setDarkMode(enabled: Boolean) = session.setDarkMode(enabled)
 
+    val language: Flow<String> = session.language
+
+    suspend fun setLanguage(code: String) = session.setLanguage(code)
+
     // ---- Notifications ----
 
     fun notificationsForUser(userId: Long): Flow<List<NotificationEntity>> =

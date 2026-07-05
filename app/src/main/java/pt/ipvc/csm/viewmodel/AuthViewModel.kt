@@ -43,6 +43,13 @@ class AuthViewModel(private val repository: CsmRepository) : ViewModel() {
         viewModelScope.launch { repository.setDarkMode(enabled) }
     }
 
+    val language: StateFlow<String> =
+        repository.language.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), "pt")
+
+    fun setLanguage(code: String) {
+        viewModelScope.launch { repository.setLanguage(code) }
+    }
+
     fun login(email: String, password: String, onResult: (OpResult) -> Unit) {
         viewModelScope.launch { onResult(repository.login(email, password)) }
     }

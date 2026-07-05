@@ -1,5 +1,7 @@
 package pt.ipvc.csm.ui.screens.auth
 
+import androidx.compose.ui.res.stringResource
+import pt.ipvc.csm.R
 import android.util.Patterns
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -88,9 +90,9 @@ fun RegisterScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onNavigateBack) {
-                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTheme.colors.textPrimary)
+                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = stringResource(R.string.back), tint = CsmTheme.colors.textPrimary)
             }
-            Text("Criar conta", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
+            Text(stringResource(R.string.create_account), fontSize = 20.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
         }
 
         Column(
@@ -100,7 +102,7 @@ fun RegisterScreen(
                 .padding(horizontal = 20.dp, vertical = 4.dp)
         ) {
             Text(
-                "Preenche os teus dados para começar.",
+                stringResource(R.string.register_subtitle),
                 fontSize = 12.5.sp,
                 color = CsmTheme.colors.textMuted,
                 modifier = Modifier.padding(bottom = 4.dp)
@@ -109,9 +111,9 @@ fun RegisterScreen(
             CsmTextField(
                 value = name,
                 onValueChange = { name = it; formError = null },
-                label = "Nome completo",
+                label = stringResource(R.string.full_name),
                 isError = nameError,
-                errorText = "Indica o teu nome.",
+                errorText = stringResource(R.string.name_required),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -120,9 +122,9 @@ fun RegisterScreen(
             CsmTextField(
                 value = email,
                 onValueChange = { email = it; formError = null },
-                label = "Email",
+                label = stringResource(R.string.email),
                 isError = emailError,
-                errorText = if (email.isBlank()) "Indica o teu email." else "Email inválido.",
+                errorText = if (email.isBlank()) stringResource(R.string.email_required) else stringResource(R.string.email_invalid),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Next),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -131,9 +133,9 @@ fun RegisterScreen(
             CsmPasswordField(
                 value = password,
                 onValueChange = { password = it; formError = null },
-                label = "Password",
+                label = stringResource(R.string.password),
                 isError = passwordError,
-                errorText = "Mínimo $MIN_PASSWORD caracteres.",
+                errorText = stringResource(R.string.password_min, MIN_PASSWORD),
                 imeAction = ImeAction.Next,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -142,9 +144,9 @@ fun RegisterScreen(
             CsmPasswordField(
                 value = confirm,
                 onValueChange = { confirm = it; formError = null },
-                label = "Confirmar password",
+                label = stringResource(R.string.confirm_password),
                 isError = confirmError,
-                errorText = "As passwords não coincidem.",
+                errorText = stringResource(R.string.passwords_no_match),
                 imeAction = ImeAction.Done,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -152,7 +154,7 @@ fun RegisterScreen(
             )
 
             Text(
-                "Tipo de perfil",
+                stringResource(R.string.profile_type),
                 fontSize = 12.sp,
                 color = CsmTheme.colors.textSecondary,
                 modifier = Modifier.padding(top = 18.dp, bottom = 8.dp)
@@ -171,7 +173,7 @@ fun RegisterScreen(
             }
 
             Spacer(Modifier.height(20.dp))
-            PrimaryButton(text = "Criar conta", onClick = ::submit, loading = loading)
+            PrimaryButton(text = stringResource(R.string.create_account), onClick = ::submit, loading = loading)
 
             Row(
                 modifier = Modifier
@@ -179,9 +181,9 @@ fun RegisterScreen(
                     .padding(top = 14.dp, bottom = 16.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text("Já tens conta? ", fontSize = 12.5.sp, color = CsmTheme.colors.textMuted)
+                Text(stringResource(R.string.already_have_account), fontSize = 12.5.sp, color = CsmTheme.colors.textMuted)
                 Text(
-                    "Entrar",
+                    stringResource(R.string.sign_in),
                     fontSize = 12.5.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = CsmBlue,

@@ -63,7 +63,7 @@ fun StatusChip(status: RequestStatus, modifier: Modifier = Modifier) {
                 .background(palette.dot)
         )
         Text(
-            text = status.ptLabel,
+            text = statusLabel(status),
             color = palette.fg,
             fontSize = 11.5.sp,
             fontWeight = FontWeight.Medium

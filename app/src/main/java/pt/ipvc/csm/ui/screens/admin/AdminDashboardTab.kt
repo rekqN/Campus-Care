@@ -1,5 +1,7 @@
 package pt.ipvc.csm.ui.screens.admin
 
+import androidx.compose.ui.res.stringResource
+import pt.ipvc.csm.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -64,26 +66,26 @@ fun AdminDashboardTab(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    "ADMINISTRADOR",
+                    stringResource(R.string.administrator_caps),
                     fontSize = 10.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = CsmBlue,
                     letterSpacing = 1.2.sp
                 )
-                Text("Painel de pedidos", fontSize = 19.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
+                Text(stringResource(R.string.requests_panel), fontSize = 19.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
             }
             IconButton(onClick = onExport) {
-                Icon(Icons.Outlined.Download, contentDescription = "Exportar", tint = CsmTheme.colors.textSecondary)
+                Icon(Icons.Outlined.Download, contentDescription = stringResource(R.string.export), tint = CsmTheme.colors.textSecondary)
             }
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            StatCard(Modifier.weight(1f), "Total", total, CsmBlue)
-            StatCard(Modifier.weight(1f), "Submetidos", submitted, StatusSubmittedDot)
+            StatCard(Modifier.weight(1f), stringResource(R.string.stat_total), total, CsmBlue)
+            StatCard(Modifier.weight(1f), stringResource(R.string.stat_submitted), submitted, StatusSubmittedDot)
         }
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            StatCard(Modifier.weight(1f), "Em análise", review, StatusReviewDot)
-            StatCard(Modifier.weight(1f), "Concluídos", done, StatusDoneDot)
+            StatCard(Modifier.weight(1f), stringResource(R.string.status_review), review, StatusReviewDot)
+            StatCard(Modifier.weight(1f), stringResource(R.string.stat_completed), done, StatusDoneDot)
         }
 
         Surface(
@@ -93,11 +95,11 @@ fun AdminDashboardTab(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(11.dp)) {
-                Text("Pedidos por estado", fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
-                StatusBar("Submetido", submitted, total, StatusSubmittedDot)
-                StatusBar("Em análise", review, total, StatusReviewDot)
-                StatusBar("Concluído", done, total, StatusDoneDot)
-                StatusBar("Rejeitado", rejected, total, StatusRejectedDot)
+                Text(stringResource(R.string.requests_by_status), fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
+                StatusBar(stringResource(R.string.status_submitted), submitted, total, StatusSubmittedDot)
+                StatusBar(stringResource(R.string.status_review), review, total, StatusReviewDot)
+                StatusBar(stringResource(R.string.status_completed), done, total, StatusDoneDot)
+                StatusBar(stringResource(R.string.status_rejected), rejected, total, StatusRejectedDot)
             }
         }
 
@@ -106,9 +108,9 @@ fun AdminDashboardTab(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Recentes", fontSize = 14.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
+            Text(stringResource(R.string.recent), fontSize = 14.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
             Text(
-                "Ver todos",
+                stringResource(R.string.see_all),
                 fontSize = 12.5.sp,
                 fontWeight = FontWeight.Medium,
                 color = CsmBlue,
@@ -118,7 +120,7 @@ fun AdminDashboardTab(
 
         if (recent.isEmpty()) {
             Text(
-                "Ainda não há pedidos submetidos.",
+                stringResource(R.string.empty_no_submitted),
                 color = CsmTheme.colors.textMuted,
                 fontSize = 13.sp,
                 modifier = Modifier.padding(vertical = 16.dp)

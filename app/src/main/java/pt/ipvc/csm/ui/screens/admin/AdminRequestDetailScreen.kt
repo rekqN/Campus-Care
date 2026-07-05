@@ -1,5 +1,8 @@
 package pt.ipvc.csm.ui.screens.admin
 
+import androidx.compose.ui.res.stringResource
+import pt.ipvc.csm.R
+import pt.ipvc.csm.ui.components.statusLabel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -83,10 +86,10 @@ fun AdminRequestDetailScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onBack) {
-                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTheme.colors.textPrimary)
+                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = stringResource(R.string.back), tint = CsmTheme.colors.textPrimary)
             }
             Text(
-                "Pedido #$requestId",
+                stringResource(R.string.request_number, requestId),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
                 color = CsmTheme.colors.textPrimary,
@@ -117,7 +120,7 @@ fun AdminRequestDetailScreen(
                 Column {
                     Text(request.title, fontSize = 16.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
                     Text(
-                        "${current.categoryName ?: "Sem categoria"} · por ${current.userName}",
+                        stringResource(R.string.by_author, current.categoryName ?: stringResource(R.string.no_category), current.userName),
                         fontSize = 12.sp,
                         color = CsmTheme.colors.textTertiary
                     )
@@ -143,11 +146,11 @@ fun AdminRequestDetailScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    InfoRow("Localização", request.location)
-                    InfoRow("Criado em", DateUtils.formatDateTime(request.createdAt))
+                    InfoRow(stringResource(R.string.location), request.location)
+                    InfoRow(stringResource(R.string.created_on), DateUtils.formatDateTime(request.createdAt))
                     HorizontalDivider(color = CsmTheme.colors.divider)
                     Column {
-                        Text("Descrição", fontSize = 12.5.sp, color = CsmTheme.colors.textTertiary)
+                        Text(stringResource(R.string.description), fontSize = 12.5.sp, color = CsmTheme.colors.textTertiary)
                         Text(
                             request.description,
                             fontSize = 13.sp,
@@ -158,7 +161,7 @@ fun AdminRequestDetailScreen(
                 }
             }
 
-            Text("Alterar estado", fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
+            Text(stringResource(R.string.change_status), fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -166,7 +169,7 @@ fun AdminRequestDetailScreen(
             ) {
                 RequestStatus.adminAssignable.forEach { status ->
                     StateChoiceChip(
-                        label = status.ptLabel,
+                        label = statusLabel(status),
                         selected = selected == status,
                         onClick = { selected = status }
                     )
@@ -175,11 +178,11 @@ fun AdminRequestDetailScreen(
 
             Spacer(Modifier.height(4.dp))
             PrimaryButton(
-                text = "Guardar alterações",
+                text = stringResource(R.string.save_changes),
                 onClick = { adminViewModel.changeStatus(requestId, selected) { } }
             )
             DangerPillButton(
-                text = "Eliminar pedido",
+                text = stringResource(R.string.delete_request),
                 onClick = { confirmDelete = true },
                 leadingIcon = Icons.Outlined.Delete
             )
@@ -190,16 +193,16 @@ fun AdminRequestDetailScreen(
     if (confirmDelete) {
         AlertDialog(
             onDismissRequest = { confirmDelete = false },
-            title = { Text("Eliminar pedido") },
-            text = { Text("Tens a certeza que queres eliminar este pedido? Esta ação não pode ser revertida.") },
+            title = { Text(stringResource(R.string.delete_request)) },
+            text = { Text(stringResource(R.string.delete_request_confirm)) },
             confirmButton = {
                 TextButton(onClick = {
                     confirmDelete = false
                     adminViewModel.deleteRequest(requestId) { onBack() }
-                }) { Text("Eliminar", color = CsmError) }
+                }) { Text(stringResource(R.string.delete), color = CsmError) }
             },
             dismissButton = {
-                TextButton(onClick = { confirmDelete = false }) { Text("Voltar") }
+                TextButton(onClick = { confirmDelete = false }) { Text(stringResource(R.string.back)) }
             }
         )
     }

@@ -1,3 +1,139 @@
 <resources>
     <string name="app_name">CSM</string>
+    <string name="brand_subtitle">CAMPUS SERVICES MANAGEMENT</string>
+
+    <!-- Common -->
+    <string name="back">Voltar</string>
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="delete">Eliminar</string>
+    <string name="edit">Editar</string>
+    <string name="add">Adicionar</string>
+    <string name="remove">Remover</string>
+    <string name="export">Exportar</string>
+    <string name="no_category">Sem categoria</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Início</string>
+    <string name="nav_requests">Pedidos</string>
+    <string name="nav_history">Histórico</string>
+    <string name="nav_profile">Perfil</string>
+    <string name="nav_panel">Painel</string>
+    <string name="nav_categories">Categorias</string>
+
+    <!-- Roles -->
+    <string name="role_user">Utilizador</string>
+    <string name="role_admin">Administrador</string>
+    <string name="profile_type">Tipo de perfil</string>
+
+    <!-- Statuses -->
+    <string name="status_submitted">Submetido</string>
+    <string name="status_review">Em análise</string>
+    <string name="status_completed">Concluído</string>
+    <string name="status_rejected">Rejeitado</string>
+    <string name="status_cancelled">Cancelado</string>
+
+    <!-- Login -->
+    <string name="login_title">Iniciar sessão</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="email_required">Indica o teu email.</string>
+    <string name="email_invalid">Email inválido.</string>
+    <string name="password_required">Indica a tua password.</string>
+    <string name="sign_in">Entrar</string>
+    <string name="or">ou</string>
+    <string name="create_account">Criar conta</string>
+
+    <!-- Register -->
+    <string name="register_subtitle">Preenche os teus dados para começar.</string>
+    <string name="full_name">Nome completo</string>
+    <string name="name_required">Indica o teu nome.</string>
+    <string name="confirm_password">Confirmar password</string>
+    <string name="password_min">Mínimo %1$d caracteres.</string>
+    <string name="passwords_no_match">As passwords não coincidem.</string>
+    <string name="already_have_account">Já tens conta? </string>
+
+    <!-- Edit profile -->
+    <string name="edit_profile">Editar perfil</string>
+    <string name="saving">A guardar…</string>
+    <string name="change_photo">Alterar foto</string>
+    <string name="name">Nome</string>
+    <string name="new_password_optional">Nova password (opcional)</string>
+    <string name="logout">Terminar sessão</string>
+
+    <!-- Profile tab -->
+    <string name="dark_mode">Modo escuro</string>
+    <string name="export_my_data">Exportar os meus dados</string>
+    <string name="language">Idioma</string>
+
+    <!-- User home -->
+    <string name="greeting">Olá,</string>
+    <string name="new_request">Novo pedido</string>
+    <string name="new_request_subtitle">Reporta uma ocorrência no campus</string>
+    <string name="stat_submitted">Submetidos</string>
+    <string name="stat_review">Em análise</string>
+    <string name="stat_completed">Concluídos</string>
+    <string name="recent_requests">Pedidos recentes</string>
+    <string name="see_all">Ver todos</string>
+    <string name="empty_no_requests">Ainda não tens pedidos. Cria o teu primeiro pedido.</string>
+
+    <!-- My requests -->
+    <string name="my_requests">Os meus pedidos</string>
+    <string name="search_requests">Pesquisar pedidos…</string>
+    <string name="filter_all">Todos</string>
+    <string name="sort_newest">Mais recentes</string>
+    <string name="sort_oldest">Mais antigos</string>
+    <string name="empty_no_match">Nenhum pedido corresponde ao filtro.</string>
+    <string name="empty_no_active">Ainda não tens pedidos ativos.</string>
+
+    <!-- History -->
+    <string name="empty_history">Ainda não há pedidos no histórico.</string>
+
+    <!-- New request -->
+    <string name="no_categories">Ainda não existem categorias. Pede a um administrador para as criar antes de submeteres um pedido.</string>
+    <string name="category">Categoria</string>
+    <string name="title">Título</string>
+    <string name="location">Localização</string>
+    <string name="description">Descrição</string>
+    <string name="photo_optional">Fotografia (opcional)</string>
+    <string name="submit_request">Submeter pedido</string>
+
+    <!-- Request detail -->
+    <string name="request_number">Pedido #%1$d</string>
+    <string name="created_on">Criado em</string>
+    <string name="request_status">Estado do pedido</string>
+    <string name="no_status_history">Sem histórico de estado.</string>
+    <string name="cancel_request">Cancelar pedido</string>
+    <string name="cancel_request_confirm">Tens a certeza que queres cancelar este pedido? Esta ação não pode ser revertida.</string>
+
+    <!-- Notifications -->
+    <string name="notifications">Notificações</string>
+    <string name="empty_notifications">Ainda não tens notificações.</string>
+
+    <!-- Admin dashboard -->
+    <string name="administrator_caps">ADMINISTRADOR</string>
+    <string name="requests_panel">Painel de pedidos</string>
+    <string name="stat_total">Total</string>
+    <string name="requests_by_status">Pedidos por estado</string>
+    <string name="recent">Recentes</string>
+    <string name="empty_no_submitted">Ainda não há pedidos submetidos.</string>
+
+    <!-- All requests (admin) -->
+    <string name="all_requests">Todos os pedidos</string>
+
+    <!-- Categories -->
+    <string name="empty_categories">Ainda não há categorias. Toca no botão + para criar a primeira.</string>
+    <string name="new_category">Nova categoria</string>
+    <string name="edit_category">Editar categoria</string>
+    <string name="icon">Ícone</string>
+    <string name="delete_category">Eliminar categoria</string>
+    <string name="delete_category_confirm">Eliminar a categoria \"%1$s\"? Os pedidos existentes ficam sem categoria.</string>
+    <string name="n_requests">%1$d pedidos</string>
+
+    <!-- Admin request detail -->
+    <string name="by_author">%1$s · por %2$s</string>
+    <string name="change_status">Alterar estado</string>
+    <string name="save_changes">Guardar alterações</string>
+    <string name="delete_request">Eliminar pedido</string>
+    <string name="delete_request_confirm">Tens a certeza que queres eliminar este pedido? Esta ação não pode ser revertida.</string>
 </resources>

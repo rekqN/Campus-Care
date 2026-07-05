@@ -1,5 +1,7 @@
 package pt.ipvc.csm.ui.screens.auth
 
+import androidx.compose.ui.res.stringResource
+import pt.ipvc.csm.R
 import android.util.Patterns
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -134,17 +136,17 @@ fun EditProfileScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onBack) {
-                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTheme.colors.textPrimary)
+                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = stringResource(R.string.back), tint = CsmTheme.colors.textPrimary)
             }
             Text(
-                "Editar perfil",
+                stringResource(R.string.edit_profile),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
                 color = CsmTheme.colors.textPrimary,
                 modifier = Modifier.weight(1f)
             )
             Text(
-                if (loading) "A guardar…" else "Guardar",
+                if (loading) stringResource(R.string.saving) else stringResource(R.string.save),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = CsmBlue,
@@ -191,7 +193,7 @@ fun EditProfileScreen(
                 }
             }
             Text(
-                "Alterar foto",
+                stringResource(R.string.change_photo),
                 color = CsmBlue,
                 fontSize = 12.5.sp,
                 fontWeight = FontWeight.Medium,
@@ -208,9 +210,9 @@ fun EditProfileScreen(
             CsmTextField(
                 value = name,
                 onValueChange = { name = it; formError = null },
-                label = "Nome",
+                label = stringResource(R.string.name),
                 isError = nameError,
-                errorText = "Indica o teu nome.",
+                errorText = stringResource(R.string.name_required),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -219,9 +221,9 @@ fun EditProfileScreen(
             CsmTextField(
                 value = email,
                 onValueChange = { email = it; formError = null },
-                label = "Email",
+                label = stringResource(R.string.email),
                 isError = emailError,
-                errorText = if (email.isBlank()) "Indica o teu email." else "Email inválido.",
+                errorText = if (email.isBlank()) stringResource(R.string.email_required) else stringResource(R.string.email_invalid),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Next),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -230,9 +232,9 @@ fun EditProfileScreen(
             CsmPasswordField(
                 value = newPassword,
                 onValueChange = { newPassword = it; formError = null },
-                label = "Nova password (opcional)",
+                label = stringResource(R.string.new_password_optional),
                 isError = passwordError,
-                errorText = "Mínimo 6 caracteres.",
+                errorText = stringResource(R.string.password_min, 6),
                 imeAction = ImeAction.Done,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -240,7 +242,7 @@ fun EditProfileScreen(
             )
 
             Text(
-                "Tipo de perfil",
+                stringResource(R.string.profile_type),
                 fontSize = 12.sp,
                 color = CsmTheme.colors.textSecondary,
                 modifier = Modifier
@@ -262,7 +264,7 @@ fun EditProfileScreen(
 
             Spacer(Modifier.height(28.dp))
             DangerPillButton(
-                text = "Terminar sessão",
+                text = stringResource(R.string.logout),
                 onClick = { authViewModel.logout() },
                 leadingIcon = Icons.AutoMirrored.Outlined.Logout
             )

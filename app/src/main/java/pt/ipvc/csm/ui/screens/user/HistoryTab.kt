@@ -1,5 +1,7 @@
 package pt.ipvc.csm.ui.screens.user
 
+import androidx.compose.ui.res.stringResource
+import pt.ipvc.csm.R
 import pt.ipvc.csm.ui.theme.CsmTheme
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -46,7 +48,7 @@ fun HistoryTab(
     ) {
         item {
             Text(
-                "Histórico",
+                stringResource(R.string.nav_history),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
                 color = CsmTheme.colors.textPrimary,
@@ -58,21 +60,21 @@ fun HistoryTab(
                 modifier = Modifier.horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                CsmFilterChip("Todos", statusFilter == null) { statusFilter = null }
-                CsmFilterChip("Concluído", statusFilter == RequestStatus.CONCLUIDO) {
+                CsmFilterChip(stringResource(R.string.filter_all), statusFilter == null) { statusFilter = null }
+                CsmFilterChip(stringResource(R.string.status_completed), statusFilter == RequestStatus.CONCLUIDO) {
                     statusFilter = RequestStatus.CONCLUIDO
                 }
-                CsmFilterChip("Rejeitado", statusFilter == RequestStatus.REJEITADO) {
+                CsmFilterChip(stringResource(R.string.status_rejected), statusFilter == RequestStatus.REJEITADO) {
                     statusFilter = RequestStatus.REJEITADO
                 }
-                CsmFilterChip("Cancelado", statusFilter == RequestStatus.CANCELADO) {
+                CsmFilterChip(stringResource(R.string.status_cancelled), statusFilter == RequestStatus.CANCELADO) {
                     statusFilter = RequestStatus.CANCELADO
                 }
             }
         }
 
         if (history.isEmpty()) {
-            item { EmptyHint("Ainda não há pedidos no histórico.") }
+            item { EmptyHint(stringResource(R.string.empty_history)) }
         } else {
             items(history, key = { it.request.id }) { item ->
                 RequestCard(item = item, onClick = { onOpenRequest(item.request.id) })

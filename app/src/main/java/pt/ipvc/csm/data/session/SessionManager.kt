@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -38,8 +39,17 @@ class SessionManager(private val context: Context) {
         context.dataStore.edit { it[KEY_DARK_MODE] = enabled }
     }
 
+    val language: Flow<String> = context.dataStore.data.map { prefs ->
+        prefs[KEY_LANGUAGE] ?: "pt"
+    }
+
+    suspend fun setLanguage(code: String) {
+        context.dataStore.edit { it[KEY_LANGUAGE] = code }
+    }
+
     companion object {
         private val KEY_USER_ID = longPreferencesKey("user_id")
         private val KEY_DARK_MODE = booleanPreferencesKey("dark_mode")
+        private val KEY_LANGUAGE = stringPreferencesKey("language")
     }
 }

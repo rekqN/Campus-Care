@@ -1,5 +1,7 @@
 package pt.ipvc.csm.ui.screens.user
 
+import androidx.compose.ui.res.stringResource
+import pt.ipvc.csm.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -69,7 +71,7 @@ fun UserHomeTab(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {
-                Text("Olá,", color = CsmTheme.colors.textMuted, fontSize = 12.sp)
+                Text(stringResource(R.string.greeting), color = CsmTheme.colors.textMuted, fontSize = 12.sp)
                 Text(user.name, color = CsmTheme.colors.textPrimary, fontSize = 19.sp, fontWeight = FontWeight.Medium)
             }
             BadgedBox(
@@ -82,7 +84,7 @@ fun UserHomeTab(
                 IconButton(onClick = onOpenNotifications) {
                     Icon(
                         Icons.Outlined.Notifications,
-                        contentDescription = "Notificações",
+                        contentDescription = stringResource(R.string.notifications),
                         tint = CsmTheme.colors.textSecondary
                     )
                 }
@@ -94,9 +96,9 @@ fun UserHomeTab(
         NewRequestCta(onClick = onNewRequest)
 
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            StatCard(Modifier.weight(1f), submitted.toString(), "Submetidos", CsmBlue)
-            StatCard(Modifier.weight(1f), underReview.toString(), "Em análise", StatusReviewDot)
-            StatCard(Modifier.weight(1f), completed.toString(), "Concluídos", StatusDoneDot)
+            StatCard(Modifier.weight(1f), submitted.toString(), stringResource(R.string.stat_submitted), CsmBlue)
+            StatCard(Modifier.weight(1f), underReview.toString(), stringResource(R.string.status_review), StatusReviewDot)
+            StatCard(Modifier.weight(1f), completed.toString(), stringResource(R.string.stat_completed), StatusDoneDot)
         }
 
         Row(
@@ -104,9 +106,9 @@ fun UserHomeTab(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Pedidos recentes", fontSize = 14.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
+            Text(stringResource(R.string.recent_requests), fontSize = 14.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
             Text(
-                "Ver todos",
+                stringResource(R.string.see_all),
                 fontSize = 12.5.sp,
                 fontWeight = FontWeight.Medium,
                 color = CsmBlue,
@@ -115,7 +117,7 @@ fun UserHomeTab(
         }
 
         if (recent.isEmpty()) {
-            EmptyHint("Ainda não tens pedidos. Toca em \"Novo pedido\" para começar.")
+            EmptyHint(stringResource(R.string.empty_no_requests))
         } else {
             recent.forEach { item ->
                 RequestCard(item = item, onClick = { onOpenRequest(item.request.id) })
@@ -147,9 +149,9 @@ private fun NewRequestCta(onClick: () -> Unit) {
                 Icon(Icons.Filled.Add, contentDescription = null, tint = Color.White, modifier = Modifier.size(26.dp))
             }
             Column(modifier = Modifier.weight(1f)) {
-                Text("Novo pedido", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+                Text(stringResource(R.string.new_request), color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
                 Text(
-                    "Reporta uma ocorrência no campus",
+                    stringResource(R.string.new_request_subtitle),
                     color = Color.White.copy(alpha = 0.85f),
                     fontSize = 12.sp
                 )

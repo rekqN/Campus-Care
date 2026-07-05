@@ -27,7 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import pt.ipvc.csm.R
 import pt.ipvc.csm.data.local.UserEntity
 import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
@@ -37,11 +39,11 @@ import pt.ipvc.csm.util.ExportUtils
 import pt.ipvc.csm.viewmodel.AuthViewModel
 import pt.ipvc.csm.viewmodel.UserViewModel
 
-private enum class UserTab(val label: String, val icon: ImageVector) {
-    HOME("Início", Icons.Outlined.Home),
-    REQUESTS("Pedidos", Icons.Outlined.Assignment),
-    HISTORY("Histórico", Icons.Outlined.History),
-    PROFILE("Perfil", Icons.Outlined.Person)
+private enum class UserTab(val labelRes: Int, val icon: ImageVector) {
+    HOME(R.string.nav_home, Icons.Outlined.Home),
+    REQUESTS(R.string.nav_requests, Icons.Outlined.Assignment),
+    HISTORY(R.string.nav_history, Icons.Outlined.History),
+    PROFILE(R.string.nav_profile, Icons.Outlined.Person)
 }
 
 @Composable
@@ -59,6 +61,7 @@ fun UserHomeScreen(
     val requests by userViewModel.myRequests.collectAsState()
     val darkMode by authViewModel.darkMode.collectAsState()
     val unreadCount by userViewModel.unreadNotifications.collectAsState()
+    val language by authViewModel.language.collectAsState()
     val context = LocalContext.current
 
     Scaffold(
@@ -68,8 +71,8 @@ fun UserHomeScreen(
                     NavigationBarItem(
                         selected = tabIndex == index,
                         onClick = { tabIndex = index },
-                        icon = { Icon(item.icon, contentDescription = item.label) },
-                        label = { Text(item.label) },
+                        icon = { Icon(item.icon, contentDescription = stringResource(item.labelRes)) },
+                        label = { Text(stringResource(item.labelRes)) },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = CsmBlueDark,
                             selectedTextColor = CsmTheme.colors.textPrimary,
@@ -89,7 +92,7 @@ fun UserHomeScreen(
                     contentColor = Color.White,
                     shape = RoundedCornerShape(19.dp)
                 ) {
-                    Icon(Icons.Filled.Add, contentDescription = "Novo pedido")
+                    Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.new_request))
                 }
             }
         }
@@ -121,6 +124,8 @@ fun UserHomeScreen(
                     user = user,
                     darkMode = darkMode,
                     onToggleDarkMode = authViewModel::setDarkMode,
+                    language = language,
+                    onSetLanguage = authViewModel::setLanguage,
                     onEditProfile = onEditProfile,
                     onLogout = { authViewModel.logout() },
                     onExport = {

@@ -1,5 +1,8 @@
 package pt.ipvc.csm.ui.screens.user
 
+import androidx.compose.ui.res.stringResource
+import pt.ipvc.csm.R
+import pt.ipvc.csm.ui.components.statusLabel
 import pt.ipvc.csm.ui.theme.CsmTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -78,10 +81,10 @@ fun RequestDetailScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onBack) {
-                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTheme.colors.textPrimary)
+                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = stringResource(R.string.back), tint = CsmTheme.colors.textPrimary)
             }
             Text(
-                "Pedido #${requestId}",
+                stringResource(R.string.request_number, requestId),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
                 color = CsmTheme.colors.textPrimary
@@ -135,12 +138,12 @@ fun RequestDetailScreen(
                     modifier = Modifier.padding(14.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    InfoRow("Categoria", current.categoryName ?: "Sem categoria")
-                    InfoRow("Localização", request.location)
-                    InfoRow("Criado em", DateUtils.formatDateTime(request.createdAt))
+                    InfoRow(stringResource(R.string.category), current.categoryName ?: stringResource(R.string.no_category))
+                    InfoRow(stringResource(R.string.location), request.location)
+                    InfoRow(stringResource(R.string.created_on), DateUtils.formatDateTime(request.createdAt))
                     HorizontalDivider(color = CsmTheme.colors.divider)
                     Column {
-                        Text("Descrição", fontSize = 12.5.sp, color = CsmTheme.colors.textTertiary)
+                        Text(stringResource(R.string.description), fontSize = 12.5.sp, color = CsmTheme.colors.textTertiary)
                         Text(
                             request.description,
                             fontSize = 13.sp,
@@ -151,13 +154,13 @@ fun RequestDetailScreen(
                 }
             }
 
-            Text("Estado do pedido", fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
+            Text(stringResource(R.string.request_status), fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
             StatusTimeline(history)
 
             if (request.status.isActive) {
                 Spacer(Modifier.height(4.dp))
                 pt.ipvc.csm.ui.components.DangerPillButton(
-                    text = "Cancelar pedido",
+                    text = stringResource(R.string.cancel_request),
                     onClick = { showCancelDialog = true },
                     leadingIcon = Icons.Outlined.Cancel
                 )
@@ -169,16 +172,16 @@ fun RequestDetailScreen(
     if (showCancelDialog) {
         AlertDialog(
             onDismissRequest = { showCancelDialog = false },
-            title = { Text("Cancelar pedido") },
-            text = { Text("Tens a certeza que queres cancelar este pedido? Esta ação não pode ser revertida.") },
+            title = { Text(stringResource(R.string.cancel_request)) },
+            text = { Text(stringResource(R.string.cancel_request_confirm)) },
             confirmButton = {
                 TextButton(onClick = {
                     showCancelDialog = false
                     userViewModel.cancelRequest(requestId) { }
-                }) { Text("Cancelar pedido") }
+                }) { Text(stringResource(R.string.cancel_request)) }
             },
             dismissButton = {
-                TextButton(onClick = { showCancelDialog = false }) { Text("Voltar") }
+                TextButton(onClick = { showCancelDialog = false }) { Text(stringResource(R.string.back)) }
             }
         )
     }
@@ -198,7 +201,7 @@ private fun InfoRow(label: String, value: String) {
 @Composable
 private fun StatusTimeline(history: List<StatusHistoryWithAuthor>) {
     if (history.isEmpty()) {
-        Text("Sem histórico de estado.", fontSize = 12.sp, color = CsmTheme.colors.textFaint)
+        Text(stringResource(R.string.no_status_history), fontSize = 12.sp, color = CsmTheme.colors.textFaint)
         return
     }
     Column {
@@ -222,7 +225,7 @@ private fun StatusTimeline(history: List<StatusHistoryWithAuthor>) {
                     }
                 }
                 Column(modifier = Modifier.padding(start = 12.dp, bottom = if (index < history.lastIndex) 10.dp else 0.dp)) {
-                    Text(entry.entry.status.ptLabel, fontSize = 13.sp, fontWeight = FontWeight.Medium, color = palette.fg)
+                    Text(statusLabel(entry.entry.status), fontSize = 13.sp, fontWeight = FontWeight.Medium, color = palette.fg)
                     Text(
                         "${DateUtils.formatTimeline(entry.entry.changedAt)} · ${entry.changedByName}",
                         fontSize = 11.sp,

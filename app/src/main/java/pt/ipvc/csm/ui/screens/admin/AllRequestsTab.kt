@@ -1,5 +1,8 @@
 package pt.ipvc.csm.ui.screens.admin
 
+import androidx.compose.ui.res.stringResource
+import pt.ipvc.csm.R
+import pt.ipvc.csm.ui.components.statusLabel
 import pt.ipvc.csm.ui.theme.CsmTheme
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -49,22 +52,22 @@ fun AllRequestsTab(
     ) {
         item {
             Text(
-                "Todos os pedidos",
+                stringResource(R.string.all_requests),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
                 color = CsmTheme.colors.textPrimary,
                 modifier = Modifier.padding(vertical = 4.dp)
             )
         }
-        item { CsmSearchBar(query = query, onQueryChange = { query = it }, placeholder = "Pesquisar pedidos…") }
+        item { CsmSearchBar(query = query, onQueryChange = { query = it }, placeholder = stringResource(R.string.search_requests)) }
         item {
             Row(
                 modifier = Modifier.horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                CsmFilterChip("Todos", statusFilter == null) { statusFilter = null }
+                CsmFilterChip(stringResource(R.string.filter_all), statusFilter == null) { statusFilter = null }
                 RequestStatus.entries.forEach { status ->
-                    CsmFilterChip(status.ptLabel, statusFilter == status) { statusFilter = status }
+                    CsmFilterChip(statusLabel(status), statusFilter == status) { statusFilter = status }
                 }
             }
         }
@@ -72,8 +75,8 @@ fun AllRequestsTab(
         if (filtered.isEmpty()) {
             item {
                 EmptyHint(
-                    if (requests.isEmpty()) "Ainda não há pedidos submetidos."
-                    else "Nenhum pedido corresponde ao filtro."
+                    if (requests.isEmpty()) stringResource(R.string.empty_no_submitted)
+                    else stringResource(R.string.empty_no_match)
                 )
             }
         } else {

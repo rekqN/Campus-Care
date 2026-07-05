@@ -1,5 +1,7 @@
 package pt.ipvc.csm.ui.screens.user
 
+import androidx.compose.ui.res.stringResource
+import pt.ipvc.csm.R
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -137,9 +139,9 @@ fun NewRequestScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onBack) {
-                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Voltar", tint = CsmTheme.colors.textPrimary)
+                Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = stringResource(R.string.back), tint = CsmTheme.colors.textPrimary)
             }
-            Text("Novo pedido", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
+            Text(stringResource(R.string.new_request), fontSize = 20.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
         }
 
         Column(
@@ -153,7 +155,7 @@ fun NewRequestScreen(
 
             if (categories.isEmpty()) {
                 Text(
-                    "Ainda não existem categorias. Pede a um administrador para criar categorias antes de submeteres um pedido.",
+                    stringResource(R.string.no_categories),
                     color = CsmTheme.colors.textMuted,
                     fontSize = 13.sp
                 )
@@ -168,7 +170,7 @@ fun NewRequestScreen(
                     value = selectedCategory?.name ?: "",
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text("Categoria") },
+                    label = { Text(stringResource(R.string.category)) },
                     isError = categoryError,
                     enabled = categories.isNotEmpty(),
                     leadingIcon = selectedCategory?.let {
@@ -197,7 +199,7 @@ fun NewRequestScreen(
             OutlinedTextField(
                 value = title,
                 onValueChange = { title = it; formError = null },
-                label = { Text("Título") },
+                label = { Text(stringResource(R.string.title)) },
                 isError = titleError,
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
@@ -207,7 +209,7 @@ fun NewRequestScreen(
             OutlinedTextField(
                 value = location,
                 onValueChange = { location = it; formError = null },
-                label = { Text("Localização") },
+                label = { Text(stringResource(R.string.location)) },
                 isError = locationError,
                 singleLine = true,
                 leadingIcon = { Icon(Icons.Outlined.LocationOn, contentDescription = null, tint = CsmBlue) },
@@ -218,7 +220,7 @@ fun NewRequestScreen(
             OutlinedTextField(
                 value = description,
                 onValueChange = { if (it.length <= DESCRIPTION_MAX) { description = it; formError = null } },
-                label = { Text("Descrição") },
+                label = { Text(stringResource(R.string.description)) },
                 isError = descriptionError,
                 minLines = 3,
                 supportingText = {
@@ -233,7 +235,7 @@ fun NewRequestScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Text("Fotografia (opcional)", fontSize = 12.sp, color = CsmTheme.colors.textSecondary)
+            Text(stringResource(R.string.photo_optional), fontSize = 12.sp, color = CsmTheme.colors.textSecondary)
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 if (photoUri != null) {
                     Box(modifier = Modifier.size(84.dp)) {
@@ -258,7 +260,7 @@ fun NewRequestScreen(
                                 },
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(Icons.Outlined.Close, contentDescription = "Remover", tint = Color.White, modifier = Modifier.size(14.dp))
+                            Icon(Icons.Outlined.Close, contentDescription = stringResource(R.string.remove), tint = Color.White, modifier = Modifier.size(14.dp))
                         }
                     }
                 }
@@ -276,7 +278,7 @@ fun NewRequestScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Icon(Icons.Outlined.AddAPhoto, contentDescription = null, tint = CsmBlue, modifier = Modifier.size(24.dp))
-                    Text("Adicionar", fontSize = 10.sp, color = CsmTheme.colors.textMuted)
+                    Text(stringResource(R.string.add), fontSize = 10.sp, color = CsmTheme.colors.textMuted)
                 }
             }
 
@@ -286,7 +288,7 @@ fun NewRequestScreen(
 
             Spacer(Modifier.height(4.dp))
             PrimaryButton(
-                text = "Submeter pedido",
+                text = stringResource(R.string.submit_request),
                 onClick = ::submit,
                 enabled = categories.isNotEmpty(),
                 loading = loading,

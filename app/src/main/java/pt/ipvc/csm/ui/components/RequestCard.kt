@@ -1,5 +1,7 @@
 package pt.ipvc.csm.ui.components
 
+import androidx.compose.ui.res.stringResource
+import pt.ipvc.csm.R
 import pt.ipvc.csm.ui.theme.CsmTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -69,7 +71,7 @@ fun RequestCard(
                 val subtitle = if (showAuthor) {
                     "${item.userName} · ${request.location}"
                 } else {
-                    "${item.categoryName ?: "Sem categoria"} · ${request.location}"
+                    "${item.categoryName ?: stringResource(R.string.no_category)} · ${request.location}"
                 }
                 Text(
                     text = subtitle,

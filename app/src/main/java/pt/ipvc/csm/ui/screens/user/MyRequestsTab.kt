@@ -1,5 +1,7 @@
 package pt.ipvc.csm.ui.screens.user
 
+import androidx.compose.ui.res.stringResource
+import pt.ipvc.csm.R
 import pt.ipvc.csm.ui.theme.CsmTheme
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -61,28 +63,28 @@ fun MyRequestsTab(
     ) {
         item {
             Text(
-                "Os meus pedidos",
+                stringResource(R.string.my_requests),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
                 color = CsmTheme.colors.textPrimary,
                 modifier = Modifier.padding(vertical = 4.dp)
             )
         }
-        item { CsmSearchBar(query = query, onQueryChange = { query = it }, placeholder = "Pesquisar pedidos…") }
+        item { CsmSearchBar(query = query, onQueryChange = { query = it }, placeholder = stringResource(R.string.search_requests)) }
         item {
             Row(
                 modifier = Modifier.horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                CsmFilterChip("Todos", statusFilter == null) { statusFilter = null }
-                CsmFilterChip("Submetido", statusFilter == RequestStatus.SUBMETIDO) {
+                CsmFilterChip(stringResource(R.string.filter_all), statusFilter == null) { statusFilter = null }
+                CsmFilterChip(stringResource(R.string.status_submitted), statusFilter == RequestStatus.SUBMETIDO) {
                     statusFilter = RequestStatus.SUBMETIDO
                 }
-                CsmFilterChip("Em análise", statusFilter == RequestStatus.EM_ANALISE) {
+                CsmFilterChip(stringResource(R.string.status_review), statusFilter == RequestStatus.EM_ANALISE) {
                     statusFilter = RequestStatus.EM_ANALISE
                 }
                 CsmFilterChip(
-                    label = if (newestFirst) "Mais recentes" else "Mais antigos",
+                    label = if (newestFirst) stringResource(R.string.sort_newest) else stringResource(R.string.sort_oldest),
                     selected = false,
                     onClick = { newestFirst = !newestFirst },
                     leadingIcon = Icons.Outlined.SwapVert
@@ -94,9 +96,9 @@ fun MyRequestsTab(
             item {
                 EmptyHint(
                     if (requests.any { it.request.status.isActive })
-                        "Nenhum pedido corresponde ao filtro."
+                        stringResource(R.string.empty_no_match)
                     else
-                        "Ainda não tens pedidos ativos."
+                        stringResource(R.string.empty_no_active)
                 )
             }
         } else {

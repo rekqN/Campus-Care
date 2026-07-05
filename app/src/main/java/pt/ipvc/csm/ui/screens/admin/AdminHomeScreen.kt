@@ -24,6 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import pt.ipvc.csm.R
 import pt.ipvc.csm.data.local.UserEntity
 import pt.ipvc.csm.ui.screens.user.ProfileTab
 import pt.ipvc.csm.ui.theme.CsmTheme
@@ -33,11 +35,11 @@ import pt.ipvc.csm.util.ExportUtils
 import pt.ipvc.csm.viewmodel.AdminViewModel
 import pt.ipvc.csm.viewmodel.AuthViewModel
 
-private enum class AdminTab(val label: String, val icon: ImageVector) {
-    PANEL("Painel", Icons.Outlined.Dashboard),
-    REQUESTS("Pedidos", Icons.Outlined.Assignment),
-    CATEGORIES("Categorias", Icons.Outlined.Category),
-    PROFILE("Perfil", Icons.Outlined.Person)
+private enum class AdminTab(val labelRes: Int, val icon: ImageVector) {
+    PANEL(R.string.nav_panel, Icons.Outlined.Dashboard),
+    REQUESTS(R.string.nav_requests, Icons.Outlined.Assignment),
+    CATEGORIES(R.string.nav_categories, Icons.Outlined.Category),
+    PROFILE(R.string.nav_profile, Icons.Outlined.Person)
 }
 
 @Composable
@@ -53,6 +55,7 @@ fun AdminHomeScreen(
     val requests by adminViewModel.allRequests.collectAsState()
     val categories by adminViewModel.categories.collectAsState()
     val darkMode by authViewModel.darkMode.collectAsState()
+    val language by authViewModel.language.collectAsState()
     val context = LocalContext.current
 
     Scaffold(
@@ -62,8 +65,8 @@ fun AdminHomeScreen(
                     NavigationBarItem(
                         selected = tabIndex == index,
                         onClick = { tabIndex = index },
-                        icon = { Icon(item.icon, contentDescription = item.label) },
-                        label = { Text(item.label) },
+                        icon = { Icon(item.icon, contentDescription = stringResource(item.labelRes)) },
+                        label = { Text(stringResource(item.labelRes)) },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = CsmBlueDark,
                             selectedTextColor = CsmTheme.colors.textPrimary,
@@ -107,6 +110,8 @@ fun AdminHomeScreen(
                     user = user,
                     darkMode = darkMode,
                     onToggleDarkMode = authViewModel::setDarkMode,
+                    language = language,
+                    onSetLanguage = authViewModel::setLanguage,
                     onEditProfile = onEditProfile,
                     onLogout = { authViewModel.logout() }
                 )
