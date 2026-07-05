@@ -96,7 +96,7 @@ fun LoginScreen(
         Spacer(Modifier.height(20.dp))
         CsmLogo(size = 60.dp)
         Spacer(Modifier.height(14.dp))
-        Text("CSM", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = CsmTheme.colors.textPrimary)
+        Text(stringResource(R.string.app_name), fontSize = 28.sp, fontWeight = FontWeight.Bold, color = CsmTheme.colors.textPrimary)
         Text(
             stringResource(R.string.brand_subtitle),
             fontSize = 11.sp,

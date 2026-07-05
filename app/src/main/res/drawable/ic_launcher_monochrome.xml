@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- App launcher icon: white location pin on the brand blue. -->
+<!-- Themed-icon (monochrome) layer: the pin silhouette, tinted by the system. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <path
-        android:fillColor="#1D5FD6"
-        android:pathData="M0,0 L108,0 L108,108 L0,108 Z" />
     <group
-        android:translateX="18"
-        android:translateY="18"
-        android:scaleX="3"
-        android:scaleY="3">
+        android:translateX="26"
+        android:translateY="26"
+        android:scaleX="2.3"
+        android:scaleY="2.3">
         <path
-            android:fillColor="#FFFFFF"
+            android:fillColor="#000000"
             android:pathData="M12,2C8.13,2 5,5.13 5,9c0,5.25 7,13 7,13s7,-7.75 7,-13c0,-3.87 -3.13,-7 -7,-7zM12,11.5c-1.38,0 -2.5,-1.12 -2.5,-2.5s1.12,-2.5 2.5,-2.5 2.5,1.12 2.5,2.5 -1.12,2.5 -2.5,2.5z" />
     </group>
 </vector>

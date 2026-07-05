@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="docs/logo_csm.png" width="110" alt="Logótipo CSM">
+  <img src="docs/logo_campuscare.png" width="110" alt="Logótipo Campus Care">
 
-  # CSM — Campus Services Management
+  # Campus Care
 
   Aplicação Android para registar e acompanhar pedidos/ocorrências num campus académico.
 
@@ -12,7 +12,7 @@
 
 ## O que é
 
-A **CSM** é uma app Android (nativa, Kotlin + Jetpack Compose) onde:
+A **Campus Care** é uma app Android (nativa, Kotlin + Jetpack Compose) onde:
 
 - um **Utilizador** cria pedidos (categoria, título, localização, descrição e foto opcional), acompanha o estado de cada um, vê o histórico e pode cancelar pedidos ainda não concluídos;
 - um **Administrador** vê todos os pedidos, altera-lhes o estado, elimina-os, gere categorias e tem um painel com estatísticas.
