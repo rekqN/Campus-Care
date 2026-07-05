@@ -30,7 +30,7 @@ object ExportUtils {
 
     fun buildRequestsCsv(requests: List<RequestWithDetails>, includeAuthor: Boolean): String {
         val sb = StringBuilder()
-        sb.append('﻿') // UTF-8 BOM so Excel shows accented characters correctly
+        sb.append('\uFEFF') // UTF-8 BOM so Excel shows accented characters correctly
 
         val header = mutableListOf("ID", "Titulo", "Categoria", "Localizacao", "Descricao", "Estado", "Prioridade")
         if (includeAuthor) header.add("Autor")

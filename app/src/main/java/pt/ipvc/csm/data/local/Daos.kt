@@ -29,6 +29,9 @@ interface UserDao {
 
     @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
     suspend fun getById(id: Long): UserEntity?
+
+    @Query("SELECT COUNT(*) FROM users")
+    suspend fun count(): Int
 }
 
 @Dao

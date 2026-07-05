@@ -2,6 +2,9 @@ package pt.ipvc.csm
 
 import android.app.Application
 import android.content.Context
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import pt.ipvc.csm.data.local.CsmDatabase
 import pt.ipvc.csm.data.repository.CsmRepository
 import pt.ipvc.csm.data.session.SessionManager
@@ -30,5 +33,9 @@ class CsmApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         container = AppContainer(this)
+        // One-time demo data so the app looks populated for screenshots (no-op once data exists).
+        CoroutineScope(Dispatchers.IO).launch {
+            container.repository.seedDemoDataIfEmpty()
+        }
     }
 }

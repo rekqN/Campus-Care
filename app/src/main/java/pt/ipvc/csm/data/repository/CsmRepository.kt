@@ -5,6 +5,7 @@ import pt.ipvc.csm.data.PasswordHasher
 import pt.ipvc.csm.data.local.CategoryDao
 import pt.ipvc.csm.data.local.CategoryEntity
 import pt.ipvc.csm.data.local.CategoryWithCount
+import pt.ipvc.csm.data.local.DbSeeder
 import pt.ipvc.csm.data.local.NotificationDao
 import pt.ipvc.csm.data.local.NotificationEntity
 import pt.ipvc.csm.data.local.RequestDao
@@ -258,5 +259,11 @@ class CsmRepository(
         val request = requestDao.getById(requestId) ?: return OpResult.Error("Pedido não encontrado.")
         requestDao.delete(request)
         return OpResult.Success
+    }
+
+    /** Populates a fresh (empty) database with coherent demo data. No-op once data exists. */
+    suspend fun seedDemoDataIfEmpty() {
+        if (userDao.count() > 0) return
+        DbSeeder.seed(userDao, categoryDao, requestDao, statusHistoryDao, notificationDao)
     }
 }
