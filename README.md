@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="docs/logo_campuscare.png" width="110" alt="Logótipo Campus Care">
+  <img src="logo_campuscare.png" width="110" alt="Logótipo Campus Care">
 
   # Campus Care
 

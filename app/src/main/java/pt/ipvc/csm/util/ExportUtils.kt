@@ -21,16 +21,19 @@ object ExportUtils {
         return "$baseName-$stamp.csv"
     }
 
-    /** Writes [csv] to the document [uri] returned by the create-document picker. */
+    /**
+     * Writes [csv] to the document [uri] using Windows-1252 \u2014 the default code page Excel assumes
+     * on a Portuguese/Windows machine \u2014 so accented characters (\u00E1, \u00E3, \u00E7\u2026) display correctly without
+     * relying on the reader detecting a UTF-8 BOM. All request text is Latin, so it fits Windows-1252.
+     */
     fun writeCsvToUri(context: Context, uri: Uri, csv: String) {
         context.contentResolver.openOutputStream(uri)?.use { out ->
-            out.write(csv.toByteArray(Charsets.UTF_8))
+            out.write(csv.toByteArray(charset("windows-1252")))
         }
     }
 
     fun buildRequestsCsv(requests: List<RequestWithDetails>, includeAuthor: Boolean): String {
         val sb = StringBuilder()
-        sb.append('\uFEFF') // UTF-8 BOM so Excel shows accented characters correctly
 
         val header = mutableListOf("ID", "Titulo", "Categoria", "Localizacao", "Descricao", "Estado", "Prioridade")
         if (includeAuthor) header.add("Autor")
