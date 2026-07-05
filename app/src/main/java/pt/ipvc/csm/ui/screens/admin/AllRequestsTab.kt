@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.ipvc.csm.data.local.RequestWithDetails
 import pt.ipvc.csm.model.RequestStatus
+import pt.ipvc.csm.ui.components.CategoryFilterRow
 import pt.ipvc.csm.ui.components.CsmFilterChip
 import pt.ipvc.csm.ui.components.CsmSearchBar
 import pt.ipvc.csm.ui.components.RequestCard
@@ -38,9 +39,11 @@ fun AllRequestsTab(
 ) {
     var query by remember { mutableStateOf("") }
     var statusFilter by remember { mutableStateOf<RequestStatus?>(null) }
+    var categoryFilter by remember { mutableStateOf<Long?>(null) }
 
     val filtered = requests
         .filter { statusFilter == null || it.request.status == statusFilter }
+        .filter { categoryFilter == null || it.request.categoryId == categoryFilter }
         .filter { it.matchesQuery(query) }
 
     LazyColumn(
@@ -71,6 +74,7 @@ fun AllRequestsTab(
                 }
             }
         }
+        item { CategoryFilterRow(requests, categoryFilter) { categoryFilter = it } }
 
         if (filtered.isEmpty()) {
             item {

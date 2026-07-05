@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Download
+import androidx.compose.material.icons.outlined.PriorityHigh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -36,6 +37,9 @@ import pt.ipvc.csm.model.RequestStatus
 import pt.ipvc.csm.ui.components.RequestCard
 import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
+import pt.ipvc.csm.ui.theme.PriorityUrgentBg
+import pt.ipvc.csm.ui.theme.PriorityUrgentDot
+import pt.ipvc.csm.ui.theme.PriorityUrgentFg
 import pt.ipvc.csm.ui.theme.StatusDoneDot
 import pt.ipvc.csm.ui.theme.StatusRejectedDot
 import pt.ipvc.csm.ui.theme.StatusReviewDot
@@ -54,6 +58,12 @@ fun AdminDashboardTab(
     val review = count(RequestStatus.EM_ANALISE)
     val done = count(RequestStatus.CONCLUIDO)
     val rejected = count(RequestStatus.REJEITADO)
+    val highOpen = requests.count { it.request.status.isActive && it.request.priority.isElevated }
+    val topCategories = requests
+        .groupBy { it.categoryName }
+        .map { (name, list) -> name to list.size }
+        .sortedByDescending { it.second }
+        .take(5)
     val recent = requests.take(4)
 
     Column(
@@ -88,6 +98,8 @@ fun AdminDashboardTab(
             StatCard(Modifier.weight(1f), stringResource(R.string.stat_completed), done, StatusDoneDot)
         }
 
+        HighPriorityCard(highOpen)
+
         Surface(
             shape = RoundedCornerShape(18.dp),
             color = CsmTheme.colors.surface,
@@ -100,6 +112,22 @@ fun AdminDashboardTab(
                 StatusBar(stringResource(R.string.status_review), review, total, StatusReviewDot)
                 StatusBar(stringResource(R.string.status_completed), done, total, StatusDoneDot)
                 StatusBar(stringResource(R.string.status_rejected), rejected, total, StatusRejectedDot)
+            }
+        }
+
+        if (total > 0) {
+            Surface(
+                shape = RoundedCornerShape(18.dp),
+                color = CsmTheme.colors.surface,
+                shadowElevation = 1.dp,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(11.dp)) {
+                    Text(stringResource(R.string.requests_by_category), fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
+                    topCategories.forEach { (name, value) ->
+                        StatusBar(name ?: stringResource(R.string.no_category), value, total, CsmBlue)
+                    }
+                }
             }
         }
 
@@ -128,6 +156,56 @@ fun AdminDashboardTab(
         } else {
             recent.forEach { item ->
                 RequestCard(item = item, onClick = { onOpenRequest(item.request.id) }, showAuthor = true)
+            }
+        }
+    }
+}
+
+/** Highlights how many active requests are Alta/Urgente. Goes red when there are any. */
+@Composable
+private fun HighPriorityCard(count: Int) {
+    val active = count > 0
+    Surface(
+        shape = RoundedCornerShape(16.dp),
+        color = if (active) PriorityUrgentBg else CsmTheme.colors.surface,
+        shadowElevation = 1.dp,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier.padding(14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(if (active) PriorityUrgentDot.copy(alpha = 0.18f) else CsmTheme.colors.surfaceFill),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    Icons.Outlined.PriorityHigh,
+                    contentDescription = null,
+                    tint = if (active) PriorityUrgentFg else CsmTheme.colors.textMuted,
+                    modifier = Modifier.size(22.dp)
+                )
+            }
+            if (active) {
+                Text(count.toString(), fontSize = 24.sp, fontWeight = FontWeight.Bold, color = PriorityUrgentFg)
+                Text(
+                    stringResource(R.string.open_high_priority),
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = PriorityUrgentFg,
+                    modifier = Modifier.weight(1f)
+                )
+            } else {
+                Text(
+                    stringResource(R.string.no_high_priority_open),
+                    fontSize = 13.sp,
+                    color = CsmTheme.colors.textMuted,
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
     }

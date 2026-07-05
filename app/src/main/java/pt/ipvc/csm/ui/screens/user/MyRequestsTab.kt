@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.ipvc.csm.data.local.RequestWithDetails
 import pt.ipvc.csm.model.RequestStatus
+import pt.ipvc.csm.ui.components.CategoryFilterRow
 import pt.ipvc.csm.ui.components.CsmFilterChip
 import pt.ipvc.csm.ui.components.CsmSearchBar
 import pt.ipvc.csm.ui.components.RequestCard
@@ -46,11 +47,13 @@ fun MyRequestsTab(
 ) {
     var query by remember { mutableStateOf("") }
     var statusFilter by remember { mutableStateOf<RequestStatus?>(null) }
+    var categoryFilter by remember { mutableStateOf<Long?>(null) }
     var newestFirst by remember { mutableStateOf(true) }
 
-    val filtered = requests
-        .filter { it.request.status.isActive }
+    val active = requests.filter { it.request.status.isActive }
+    val filtered = active
         .filter { statusFilter == null || it.request.status == statusFilter }
+        .filter { categoryFilter == null || it.request.categoryId == categoryFilter }
         .filter { it.matchesQuery(query) }
         .let { list -> if (newestFirst) list.sortedByDescending { it.request.createdAt } else list.sortedBy { it.request.createdAt } }
 
@@ -91,6 +94,7 @@ fun MyRequestsTab(
                 )
             }
         }
+        item { CategoryFilterRow(active, categoryFilter) { categoryFilter = it } }
 
         if (filtered.isEmpty()) {
             item {

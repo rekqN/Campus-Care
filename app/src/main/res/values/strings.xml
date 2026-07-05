@@ -33,6 +33,14 @@
     <string name="status_rejected">Rejeitado</string>
     <string name="status_cancelled">Cancelado</string>
 
+    <!-- Priority -->
+    <string name="priority">Prioridade</string>
+    <string name="priority_low">Baixa</string>
+    <string name="priority_medium">Média</string>
+    <string name="priority_high">Alta</string>
+    <string name="priority_urgent">Urgente</string>
+    <string name="all_categories">Todas as categorias</string>
+
     <!-- Login -->
     <string name="login_title">Iniciar sessão</string>
     <string name="email">Email</string>
@@ -115,6 +123,9 @@
     <string name="requests_panel">Painel de pedidos</string>
     <string name="stat_total">Total</string>
     <string name="requests_by_status">Pedidos por estado</string>
+    <string name="requests_by_category">Pedidos por categoria</string>
+    <string name="open_high_priority">Prioridade alta em aberto</string>
+    <string name="no_high_priority_open">Sem pedidos de prioridade alta em aberto.</string>
     <string name="recent">Recentes</string>
     <string name="empty_no_submitted">Ainda não há pedidos submetidos.</string>
 

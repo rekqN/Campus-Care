@@ -53,6 +53,7 @@ import pt.ipvc.csm.data.local.StatusHistoryWithAuthor
 import pt.ipvc.csm.data.local.photoPaths
 import pt.ipvc.csm.ui.components.IconTile
 import pt.ipvc.csm.ui.components.PhotoViewerDialog
+import pt.ipvc.csm.ui.components.PriorityChip
 import pt.ipvc.csm.ui.components.StatusChip
 import pt.ipvc.csm.ui.components.iconForKey
 import pt.ipvc.csm.ui.components.paletteFor
@@ -164,6 +165,14 @@ fun RequestDetailScreen(
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     InfoRow(stringResource(R.string.category), current.categoryName ?: stringResource(R.string.no_category))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(stringResource(R.string.priority), fontSize = 12.5.sp, color = CsmTheme.colors.textTertiary)
+                        PriorityChip(request.priority)
+                    }
                     InfoRow(stringResource(R.string.location), request.location)
                     InfoRow(stringResource(R.string.created_on), DateUtils.formatDateTime(request.createdAt))
                     HorizontalDivider(color = CsmTheme.colors.divider)

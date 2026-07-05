@@ -41,7 +41,7 @@ object ExportUtils {
         val sb = StringBuilder()
         sb.append('﻿') // UTF-8 BOM so Excel shows accented characters correctly
 
-        val header = mutableListOf("ID", "Titulo", "Categoria", "Localizacao", "Descricao", "Estado")
+        val header = mutableListOf("ID", "Titulo", "Categoria", "Localizacao", "Descricao", "Estado", "Prioridade")
         if (includeAuthor) header.add("Autor")
         header.add("Data de criacao")
         header.add("Ultima atualizacao")
@@ -55,7 +55,8 @@ object ExportUtils {
                 item.categoryName ?: "",
                 r.location,
                 r.description,
-                r.status.ptLabel
+                r.status.ptLabel,
+                r.priority.ptLabel
             )
             if (includeAuthor) row.add(item.userName)
             row.add(DateUtils.formatDateTime(r.createdAt))

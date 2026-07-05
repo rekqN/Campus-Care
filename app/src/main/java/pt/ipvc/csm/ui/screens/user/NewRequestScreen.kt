@@ -61,8 +61,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pt.ipvc.csm.data.local.CategoryEntity
 import pt.ipvc.csm.data.repository.OpResult
+import pt.ipvc.csm.model.Priority
 import pt.ipvc.csm.ui.components.PhotoViewerDialog
 import pt.ipvc.csm.ui.components.PrimaryButton
+import pt.ipvc.csm.ui.components.PrioritySelector
 import pt.ipvc.csm.ui.components.iconForKey
 import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
@@ -85,6 +87,7 @@ fun NewRequestScreen(
     val categories by userViewModel.categories.collectAsState()
 
     var selectedCategory by remember { mutableStateOf<CategoryEntity?>(null) }
+    var priority by remember { mutableStateOf(Priority.DEFAULT) }
     var title by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
@@ -123,6 +126,7 @@ fun NewRequestScreen(
             title = title,
             location = location,
             description = description,
+            priority = priority,
             photoPaths = photoUris.toList()
         ) { result ->
             loading = false
@@ -201,6 +205,9 @@ fun NewRequestScreen(
                     }
                 }
             }
+
+            Text(stringResource(R.string.priority), fontSize = 12.sp, color = CsmTheme.colors.textSecondary)
+            PrioritySelector(selected = priority, onSelect = { priority = it })
 
             OutlinedTextField(
                 value = title,

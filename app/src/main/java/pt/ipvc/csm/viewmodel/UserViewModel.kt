@@ -17,6 +17,7 @@ import pt.ipvc.csm.data.local.RequestWithDetails
 import pt.ipvc.csm.data.local.StatusHistoryWithAuthor
 import pt.ipvc.csm.data.repository.CsmRepository
 import pt.ipvc.csm.data.repository.OpResult
+import pt.ipvc.csm.model.Priority
 
 /** Backs the user-facing screens: the current user's requests, categories, create/cancel. */
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -63,6 +64,7 @@ class UserViewModel(private val repository: CsmRepository) : ViewModel() {
         title: String,
         location: String,
         description: String,
+        priority: Priority,
         photoPaths: List<String>,
         onResult: (OpResult) -> Unit
     ) {
@@ -72,7 +74,7 @@ class UserViewModel(private val repository: CsmRepository) : ViewModel() {
                 onResult(OpResult.Error("Sessão inválida."))
                 return@launch
             }
-            onResult(repository.createRequest(uid, categoryId, title, location, description, photoPaths))
+            onResult(repository.createRequest(uid, categoryId, title, location, description, priority, photoPaths))
         }
     }
 

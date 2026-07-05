@@ -42,6 +42,23 @@ val StatusCancelledBg = Color(0xFFE2E4EA)
 val StatusCancelledFg = Color(0xFF4A4E57)
 val StatusCancelledDot = Color(0xFF8A93A3)
 
+// Priority — background / foreground / dot (kept identical across themes)
+val PriorityLowBg = Color(0xFFE7EAF0)
+val PriorityLowFg = Color(0xFF5A6472)
+val PriorityLowDot = Color(0xFF98A1B1)
+
+val PriorityMediumBg = Color(0xFFDCE6FF)
+val PriorityMediumFg = Color(0xFF0B3EA8)
+val PriorityMediumDot = Color(0xFF1D5FD6)
+
+val PriorityHighBg = Color(0xFFFFE0C0)
+val PriorityHighFg = Color(0xFF9A4A00)
+val PriorityHighDot = Color(0xFFF07800)
+
+val PriorityUrgentBg = Color(0xFFFBD9D5)
+val PriorityUrgentFg = Color(0xFFA3160F)
+val PriorityUrgentDot = Color(0xFFD3352B)
+
 val CsmError = Color(0xFFD3352B)
 val CsmDanger = Color(0xFFA3160F)
 

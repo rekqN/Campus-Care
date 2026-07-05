@@ -88,7 +88,13 @@ fun RequestCard(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    StatusChip(request.status)
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        StatusChip(request.status)
+                        if (request.priority.isElevated) PriorityChip(request.priority)
+                    }
                     Text(
                         text = DateUtils.formatRelative(request.createdAt),
                         color = CsmTheme.colors.textFaint,

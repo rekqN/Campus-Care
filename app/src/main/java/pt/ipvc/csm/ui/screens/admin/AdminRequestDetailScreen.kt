@@ -58,6 +58,7 @@ import pt.ipvc.csm.ui.components.DangerPillButton
 import pt.ipvc.csm.ui.components.IconTile
 import pt.ipvc.csm.ui.components.PhotoViewerDialog
 import pt.ipvc.csm.ui.components.PrimaryButton
+import pt.ipvc.csm.ui.components.PrioritySelector
 import pt.ipvc.csm.ui.components.iconForKey
 import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
@@ -114,6 +115,7 @@ fun AdminRequestDetailScreen(
 
         val request = current.request
         var selected by remember(request.status) { mutableStateOf(request.status) }
+        var selectedPriority by remember(request.priority) { mutableStateOf(request.priority) }
 
         Column(
             modifier = Modifier
@@ -188,6 +190,9 @@ fun AdminRequestDetailScreen(
                 }
             }
 
+            Text(stringResource(R.string.priority), fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
+            PrioritySelector(selected = selectedPriority, onSelect = { selectedPriority = it })
+
             Text(stringResource(R.string.change_status), fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CsmTheme.colors.textPrimary)
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
@@ -215,7 +220,10 @@ fun AdminRequestDetailScreen(
             Spacer(Modifier.height(4.dp))
             PrimaryButton(
                 text = stringResource(R.string.save_changes),
-                onClick = { adminViewModel.changeStatus(requestId, selected, note.ifBlank { null }) { note = "" } }
+                onClick = {
+                    adminViewModel.changePriority(requestId, selectedPriority) {}
+                    adminViewModel.changeStatus(requestId, selected, note.ifBlank { null }) { note = "" }
+                }
             )
             DangerPillButton(
                 text = stringResource(R.string.delete_request),

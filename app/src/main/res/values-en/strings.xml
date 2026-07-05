@@ -33,6 +33,14 @@
     <string name="status_rejected">Rejected</string>
     <string name="status_cancelled">Cancelled</string>
 
+    <!-- Priority -->
+    <string name="priority">Priority</string>
+    <string name="priority_low">Low</string>
+    <string name="priority_medium">Medium</string>
+    <string name="priority_high">High</string>
+    <string name="priority_urgent">Urgent</string>
+    <string name="all_categories">All categories</string>
+
     <!-- Login -->
     <string name="login_title">Sign in</string>
     <string name="email">Email</string>
@@ -115,6 +123,9 @@
     <string name="requests_panel">Requests dashboard</string>
     <string name="stat_total">Total</string>
     <string name="requests_by_status">Requests by status</string>
+    <string name="requests_by_category">Requests by category</string>
+    <string name="open_high_priority">High priority open</string>
+    <string name="no_high_priority_open">No high-priority requests open.</string>
     <string name="recent">Recent</string>
     <string name="empty_no_submitted">No requests submitted yet.</string>
 

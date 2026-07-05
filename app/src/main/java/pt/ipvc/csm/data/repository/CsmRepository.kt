@@ -16,6 +16,7 @@ import pt.ipvc.csm.data.local.StatusHistoryWithAuthor
 import pt.ipvc.csm.data.local.UserDao
 import pt.ipvc.csm.data.local.UserEntity
 import pt.ipvc.csm.data.session.SessionManager
+import pt.ipvc.csm.model.Priority
 import pt.ipvc.csm.model.RequestStatus
 import pt.ipvc.csm.model.Role
 
@@ -171,6 +172,7 @@ class CsmRepository(
         title: String,
         location: String,
         description: String,
+        priority: Priority,
         photoPaths: List<String>
     ): OpResult {
         val now = System.currentTimeMillis()
@@ -183,6 +185,7 @@ class CsmRepository(
                 description = description.trim(),
                 photoUri = photoPaths.joinToString("\n").ifBlank { null },
                 status = RequestStatus.SUBMETIDO,
+                priority = priority,
                 createdAt = now,
                 updatedAt = now
             )
@@ -231,6 +234,14 @@ class CsmRepository(
                 )
             )
         }
+        return OpResult.Success
+    }
+
+    /** Admin action: re-triage a request's priority. No timeline entry — priority isn't a state. */
+    suspend fun changePriority(requestId: Long, priority: Priority): OpResult {
+        val request = requestDao.getById(requestId) ?: return OpResult.Error("Pedido não encontrado.")
+        if (request.priority == priority) return OpResult.Success
+        requestDao.updatePriority(requestId, priority, System.currentTimeMillis())
         return OpResult.Success
     }
 

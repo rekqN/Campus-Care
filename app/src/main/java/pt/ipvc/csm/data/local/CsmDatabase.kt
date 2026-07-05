@@ -14,7 +14,7 @@ import androidx.room.TypeConverters
         StatusHistoryEntity::class,
         NotificationEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

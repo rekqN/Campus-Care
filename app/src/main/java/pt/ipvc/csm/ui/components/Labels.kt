@@ -3,6 +3,7 @@ package pt.ipvc.csm.ui.components
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import pt.ipvc.csm.R
+import pt.ipvc.csm.model.Priority
 import pt.ipvc.csm.model.RequestStatus
 import pt.ipvc.csm.model.Role
 
@@ -15,6 +16,17 @@ fun statusLabel(status: RequestStatus): String = stringResource(
         RequestStatus.CONCLUIDO -> R.string.status_completed
         RequestStatus.REJEITADO -> R.string.status_rejected
         RequestStatus.CANCELADO -> R.string.status_cancelled
+    }
+)
+
+/** Localized label for a request priority. */
+@Composable
+fun priorityLabel(priority: Priority): String = stringResource(
+    when (priority) {
+        Priority.BAIXA -> R.string.priority_low
+        Priority.MEDIA -> R.string.priority_medium
+        Priority.ALTA -> R.string.priority_high
+        Priority.URGENTE -> R.string.priority_urgent
     }
 )
 

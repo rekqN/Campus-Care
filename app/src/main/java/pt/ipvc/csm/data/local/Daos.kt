@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
+import pt.ipvc.csm.model.Priority
 import pt.ipvc.csm.model.RequestStatus
 
 private const val DETAILS_SELECT = """
@@ -72,6 +73,9 @@ interface RequestDao {
 
     @Query("UPDATE requests SET status = :status, updatedAt = :changedAt WHERE id = :id")
     suspend fun updateStatus(id: Long, status: RequestStatus, changedAt: Long)
+
+    @Query("UPDATE requests SET priority = :priority, updatedAt = :changedAt WHERE id = :id")
+    suspend fun updatePriority(id: Long, priority: Priority, changedAt: Long)
 }
 
 @Dao

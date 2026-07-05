@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import pt.ipvc.csm.model.Priority
 import pt.ipvc.csm.model.RequestStatus
 import pt.ipvc.csm.model.Role
 
@@ -67,6 +68,7 @@ data class RequestEntity(
     val description: String,
     val photoUri: String? = null,
     val status: RequestStatus,
+    val priority: Priority = Priority.MEDIA,
     val createdAt: Long,
     val updatedAt: Long
 )

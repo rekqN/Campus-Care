@@ -14,6 +14,7 @@ import pt.ipvc.csm.data.local.RequestWithDetails
 import pt.ipvc.csm.data.local.StatusHistoryWithAuthor
 import pt.ipvc.csm.data.repository.CsmRepository
 import pt.ipvc.csm.data.repository.OpResult
+import pt.ipvc.csm.model.Priority
 import pt.ipvc.csm.model.RequestStatus
 
 /** Backs the admin screens: all requests, category management, and state changes. */
@@ -40,6 +41,10 @@ class AdminViewModel(private val repository: CsmRepository) : ViewModel() {
             }
             onResult(repository.changeStatus(requestId, status, adminId, note))
         }
+    }
+
+    fun changePriority(requestId: Long, priority: Priority, onResult: (OpResult) -> Unit) {
+        viewModelScope.launch { onResult(repository.changePriority(requestId, priority)) }
     }
 
     fun deleteRequest(requestId: Long, onResult: (OpResult) -> Unit) {
