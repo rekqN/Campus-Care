@@ -23,15 +23,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import pt.ipvc.csm.R
 import pt.ipvc.csm.data.local.UserEntity
+import pt.ipvc.csm.ui.components.rememberCsvExporter
 import pt.ipvc.csm.ui.screens.user.ProfileTab
 import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlueContainer
 import pt.ipvc.csm.ui.theme.CsmBlueDark
-import pt.ipvc.csm.util.ExportUtils
 import pt.ipvc.csm.viewmodel.AdminViewModel
 import pt.ipvc.csm.viewmodel.AuthViewModel
 
@@ -56,7 +55,7 @@ fun AdminHomeScreen(
     val categories by adminViewModel.categories.collectAsState()
     val darkMode by authViewModel.darkMode.collectAsState()
     val language by authViewModel.language.collectAsState()
-    val context = LocalContext.current
+    val exportCsv = rememberCsvExporter()
 
     Scaffold(
         bottomBar = {
@@ -89,14 +88,7 @@ fun AdminHomeScreen(
                     requests = requests,
                     onOpenRequest = onOpenRequest,
                     onSeeAllRequests = { tabIndex = AdminTab.REQUESTS.ordinal },
-                    onExport = {
-                        ExportUtils.shareRequestsCsv(
-                            context = context,
-                            requests = requests,
-                            includeAuthor = true,
-                            baseFileName = "todos-os-pedidos"
-                        )
-                    }
+                    onExport = { exportCsv(requests, true, "todos-os-pedidos") }
                 )
                 AdminTab.REQUESTS -> AllRequestsTab(
                     requests = requests,

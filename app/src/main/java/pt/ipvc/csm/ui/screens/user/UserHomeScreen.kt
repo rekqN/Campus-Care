@@ -26,16 +26,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import pt.ipvc.csm.R
 import pt.ipvc.csm.data.local.UserEntity
+import pt.ipvc.csm.ui.components.rememberCsvExporter
 import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
 import pt.ipvc.csm.ui.theme.CsmBlueContainer
 import pt.ipvc.csm.ui.theme.CsmBlueDark
-import pt.ipvc.csm.util.ExportUtils
 import pt.ipvc.csm.viewmodel.AuthViewModel
 import pt.ipvc.csm.viewmodel.UserViewModel
 
@@ -62,7 +61,7 @@ fun UserHomeScreen(
     val darkMode by authViewModel.darkMode.collectAsState()
     val unreadCount by userViewModel.unreadNotifications.collectAsState()
     val language by authViewModel.language.collectAsState()
-    val context = LocalContext.current
+    val exportCsv = rememberCsvExporter()
 
     Scaffold(
         bottomBar = {
@@ -128,14 +127,7 @@ fun UserHomeScreen(
                     onSetLanguage = authViewModel::setLanguage,
                     onEditProfile = onEditProfile,
                     onLogout = { authViewModel.logout() },
-                    onExport = {
-                        ExportUtils.shareRequestsCsv(
-                            context = context,
-                            requests = requests,
-                            includeAuthor = false,
-                            baseFileName = "meus-pedidos"
-                        )
-                    }
+                    onExport = { exportCsv(requests, false, "meus-pedidos") }
                 )
             }
         }
