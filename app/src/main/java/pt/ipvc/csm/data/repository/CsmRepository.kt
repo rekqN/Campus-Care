@@ -1,5 +1,6 @@
 package pt.ipvc.csm.data.repository
 
+import android.content.Context
 import kotlinx.coroutines.flow.Flow
 import pt.ipvc.csm.data.PasswordHasher
 import pt.ipvc.csm.data.local.CategoryDao
@@ -263,8 +264,8 @@ class CsmRepository(
     }
 
     /** Populates a fresh (empty) database with coherent demo data. No-op once data exists. */
-    suspend fun seedDemoDataIfEmpty() {
+    suspend fun seedDemoDataIfEmpty(context: Context) {
         if (userDao.count() > 0) return
-        DbSeeder.seed(userDao, categoryDao, requestDao, statusHistoryDao, notificationDao)
+        DbSeeder.seed(context, userDao, categoryDao, requestDao, statusHistoryDao, notificationDao)
     }
 }

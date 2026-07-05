@@ -35,7 +35,7 @@ class CsmApplication : Application() {
         container = AppContainer(this)
         // One-time demo data so the app looks populated for screenshots (no-op once data exists).
         CoroutineScope(Dispatchers.IO).launch {
-            container.repository.seedDemoDataIfEmpty()
+            container.repository.seedDemoDataIfEmpty(applicationContext)
         }
     }
 }

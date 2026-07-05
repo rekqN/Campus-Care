@@ -1,9 +1,11 @@
 package pt.ipvc.csm.data.local
 
+import android.content.Context
 import pt.ipvc.csm.data.PasswordHasher
 import pt.ipvc.csm.model.Priority
 import pt.ipvc.csm.model.RequestStatus
 import pt.ipvc.csm.model.Role
+import pt.ipvc.csm.util.PhotoStorage
 
 /**
  * Fills an empty database with coherent demo data — a few accounts, a set of campus categories and
@@ -18,6 +20,7 @@ object DbSeeder {
     private const val DAY = 24L * 60 * 60 * 1000
 
     suspend fun seed(
+        context: Context,
         userDao: UserDao,
         categoryDao: CategoryDao,
         requestDao: RequestDao,
@@ -63,16 +66,20 @@ object DbSeeder {
         suspend fun request(
             userId: Long, category: Long?, title: String, location: String, description: String,
             priority: Priority, createdDaysAgo: Double,
-            transitions: List<Triple<RequestStatus, Double, String?>> = emptyList()
+            transitions: List<Triple<RequestStatus, Double, String?>> = emptyList(),
+            photos: List<String> = emptyList()
         ) {
             val created = daysAgo(createdDaysAgo)
             val finalStatus = transitions.lastOrNull()?.first ?: RequestStatus.SUBMETIDO
             val updatedAt = transitions.lastOrNull()?.let { daysAgo(it.second) } ?: created
+            val photoUri = photos
+                .mapNotNull { PhotoStorage.savePhotoFromAsset(context, "seed/$it") }
+                .joinToString("\n").ifBlank { null }
             val reqId = requestDao.insert(
                 RequestEntity(
                     userId = userId, categoryId = category, title = title, location = location,
-                    description = description, status = finalStatus, priority = priority,
-                    createdAt = created, updatedAt = updatedAt
+                    description = description, photoUri = photoUri, status = finalStatus,
+                    priority = priority, createdAt = created, updatedAt = updatedAt
                 )
             )
             statusHistoryDao.insert(
@@ -100,19 +107,22 @@ object DbSeeder {
 
         request(pedro, salas, "Projetor da sala B203 não liga", "Bloco B, Sala 203",
             "O projetor liga mas não dá imagem, mesmo trocando o cabo HDMI.",
-            Priority.ALTA, 2.0, listOf(Triple(RequestStatus.EM_ANALISE, 1.0, "Já pedimos a substituição da lâmpada.")))
+            Priority.ALTA, 2.0, listOf(Triple(RequestStatus.EM_ANALISE, 1.0, "Já pedimos a substituição da lâmpada.")),
+            photos = listOf("projector.jpg"))
 
         request(pedro, limpeza, "Derrame no chão da cantina", "Cantina",
             "Alguém entornou sumo perto da entrada e o chão está escorregadio.",
             Priority.URGENTE, 9.0, listOf(
                 Triple(RequestStatus.EM_ANALISE, 8.8, null),
-                Triple(RequestStatus.CONCLUIDO, 8.5, "Limpo, obrigado pelo aviso.")))
+                Triple(RequestStatus.CONCLUIDO, 8.5, "Limpo, obrigado pelo aviso.")),
+            photos = listOf("spill_1.jpg", "spill_2.jpg"))
 
         request(pedro, redes, "Wi-Fi instável no Bloco A", "Bloco A, 2º piso",
             "A ligação cai de 10 em 10 minutos durante as aulas.", Priority.ALTA, 1.0)
 
         request(ana, manutencao, "Cadeira partida na biblioteca", "Biblioteca, piso 1",
-            "Uma das cadeiras tem a perna solta e abana.", Priority.BAIXA, 5.0)
+            "Uma das cadeiras tem a perna solta e abana.", Priority.BAIXA, 5.0,
+            photos = listOf("chair.jpg"))
 
         request(ana, informatica, "Computador não arranca no Lab 1", "Lab. Informática 1",
             "O PC do lugar 12 não passa do ecrã preto.", Priority.MEDIA, 6.0,
@@ -136,11 +146,13 @@ object DbSeeder {
 
         request(pedro, informatica, "Quadro interativo sem imagem", "Sala B110",
             "O quadro interativo não recebe sinal do computador.", Priority.ALTA, 7.0,
-            listOf(Triple(RequestStatus.EM_ANALISE, 2.0, "A aguardar peça de substituição.")))
+            listOf(Triple(RequestStatus.EM_ANALISE, 2.0, "A aguardar peça de substituição.")),
+            photos = listOf("board_1.jpg", "board_2.jpg", "board_3.jpg"))
 
         request(joao, informatica, "Impressora da biblioteca sem toner", "Biblioteca",
             "A impressora está sem toner há vários dias.", Priority.MEDIA, 16.0,
-            listOf(Triple(RequestStatus.CONCLUIDO, 14.0, "Toner reposto.")))
+            listOf(Triple(RequestStatus.CONCLUIDO, 14.0, "Toner reposto.")),
+            photos = listOf("printer.jpg"))
 
         request(ana, manutencao, "Aquecimento não funciona na sala A004", "Bloco A, Sala 004",
             "A sala está muito fria, o aquecimento não liga.", Priority.MEDIA, 4.0)

@@ -27,6 +27,22 @@ object PhotoStorage {
         }
     }
 
+    /** Copies a bundled asset image (e.g. "seed/projector.jpg") into internal storage; used by the
+     *  demo seeder so seeded requests can carry photos. Returns the saved file path. */
+    fun savePhotoFromAsset(context: Context, assetPath: String): String? {
+        return try {
+            val dir = File(context.filesDir, "photos").apply { mkdirs() }
+            val dest = File(dir, "${UUID.randomUUID()}.jpg")
+            context.assets.open(assetPath).use { input ->
+                dest.outputStream().use { output -> input.copyTo(output) }
+            }
+            dest.absolutePath
+        } catch (e: Exception) {
+            Log.w("PhotoStorage", "Falha ao copiar imagem de demonstração", e)
+            null
+        }
+    }
+
     fun delete(path: String?) {
         if (!path.isNullOrBlank()) runCatching { File(path).delete() }
     }
