@@ -25,10 +25,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.ipvc.csm.data.local.RequestWithDetails
+import pt.ipvc.csm.model.Priority
 import pt.ipvc.csm.model.RequestStatus
 import pt.ipvc.csm.ui.components.CategoryFilterRow
 import pt.ipvc.csm.ui.components.CsmFilterChip
 import pt.ipvc.csm.ui.components.CsmSearchBar
+import pt.ipvc.csm.ui.components.PriorityFilterRow
 import pt.ipvc.csm.ui.components.RequestCard
 
 /** Returns true if the request matches a free-text query over title/location/category. */
@@ -48,12 +50,14 @@ fun MyRequestsTab(
     var query by remember { mutableStateOf("") }
     var statusFilter by remember { mutableStateOf<RequestStatus?>(null) }
     var categoryFilter by remember { mutableStateOf<Long?>(null) }
+    var priorityFilter by remember { mutableStateOf<Priority?>(null) }
     var newestFirst by remember { mutableStateOf(true) }
 
     val active = requests.filter { it.request.status.isActive }
     val filtered = active
         .filter { statusFilter == null || it.request.status == statusFilter }
         .filter { categoryFilter == null || it.request.categoryId == categoryFilter }
+        .filter { priorityFilter == null || it.request.priority == priorityFilter }
         .filter { it.matchesQuery(query) }
         .let { list -> if (newestFirst) list.sortedByDescending { it.request.createdAt } else list.sortedBy { it.request.createdAt } }
 
@@ -95,6 +99,7 @@ fun MyRequestsTab(
             }
         }
         item { CategoryFilterRow(active, categoryFilter) { categoryFilter = it } }
+        item { PriorityFilterRow(priorityFilter) { priorityFilter = it } }
 
         if (filtered.isEmpty()) {
             item {

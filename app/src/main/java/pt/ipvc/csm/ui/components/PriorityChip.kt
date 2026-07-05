@@ -3,6 +3,7 @@ package pt.ipvc.csm.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -19,9 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pt.ipvc.csm.R
 import pt.ipvc.csm.model.Priority
 import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.PriorityHighBg
@@ -70,6 +74,24 @@ fun PriorityChip(priority: Priority, modifier: Modifier = Modifier) {
             fontSize = 11.5.sp,
             fontWeight = FontWeight.Medium
         )
+    }
+}
+
+/** A horizontally-scrolling chip row for filtering a request list by priority ("All" + each level). */
+@Composable
+fun PriorityFilterRow(
+    selected: Priority?,
+    modifier: Modifier = Modifier,
+    onSelect: (Priority?) -> Unit
+) {
+    Row(
+        modifier = modifier.horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        CsmFilterChip(stringResource(R.string.filter_all), selected == null) { onSelect(null) }
+        Priority.entries.forEach { priority ->
+            CsmFilterChip(priorityLabel(priority), selected == priority) { onSelect(priority) }
+        }
     }
 }
 

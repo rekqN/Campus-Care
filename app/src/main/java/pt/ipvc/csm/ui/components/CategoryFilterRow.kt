@@ -21,8 +21,8 @@ import pt.ipvc.csm.data.local.RequestWithDetails
 fun CategoryFilterRow(
     requests: List<RequestWithDetails>,
     selectedCategoryId: Long?,
-    onSelect: (Long?) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSelect: (Long?) -> Unit
 ) {
     val categories = remember(requests) {
         requests

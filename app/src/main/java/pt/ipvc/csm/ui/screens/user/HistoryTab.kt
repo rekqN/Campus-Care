@@ -23,9 +23,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.ipvc.csm.data.local.RequestWithDetails
+import pt.ipvc.csm.model.Priority
 import pt.ipvc.csm.model.RequestStatus
 import pt.ipvc.csm.ui.components.CategoryFilterRow
 import pt.ipvc.csm.ui.components.CsmFilterChip
+import pt.ipvc.csm.ui.components.PriorityFilterRow
 import pt.ipvc.csm.ui.components.RequestCard
 
 @Composable
@@ -35,11 +37,13 @@ fun HistoryTab(
 ) {
     var statusFilter by remember { mutableStateOf<RequestStatus?>(null) }
     var categoryFilter by remember { mutableStateOf<Long?>(null) }
+    var priorityFilter by remember { mutableStateOf<Priority?>(null) }
 
     val historyBase = requests.filter { it.request.status.isHistory }
     val history = historyBase
         .filter { statusFilter == null || it.request.status == statusFilter }
         .filter { categoryFilter == null || it.request.categoryId == categoryFilter }
+        .filter { priorityFilter == null || it.request.priority == priorityFilter }
         .sortedByDescending { it.request.updatedAt }
 
     LazyColumn(
@@ -76,6 +80,7 @@ fun HistoryTab(
             }
         }
         item { CategoryFilterRow(historyBase, categoryFilter) { categoryFilter = it } }
+        item { PriorityFilterRow(priorityFilter) { priorityFilter = it } }
 
         if (history.isEmpty()) {
             item { EmptyHint(stringResource(R.string.empty_history)) }
