@@ -63,7 +63,7 @@ class UserViewModel(private val repository: CsmRepository) : ViewModel() {
         title: String,
         location: String,
         description: String,
-        photoUri: String?,
+        photoPaths: List<String>,
         onResult: (OpResult) -> Unit
     ) {
         viewModelScope.launch {
@@ -72,7 +72,7 @@ class UserViewModel(private val repository: CsmRepository) : ViewModel() {
                 onResult(OpResult.Error("Sessão inválida."))
                 return@launch
             }
-            onResult(repository.createRequest(uid, categoryId, title, location, description, photoUri))
+            onResult(repository.createRequest(uid, categoryId, title, location, description, photoPaths))
         }
     }
 

@@ -133,6 +133,7 @@
     <!-- Admin request detail -->
     <string name="by_author">%1$s · by %2$s</string>
     <string name="change_status">Change status</string>
+    <string name="status_note">Note for the user (optional)</string>
     <string name="save_changes">Save changes</string>
     <string name="delete_request">Delete request</string>
     <string name="delete_request_confirm">Are you sure you want to delete this request? This action cannot be undone.</string>

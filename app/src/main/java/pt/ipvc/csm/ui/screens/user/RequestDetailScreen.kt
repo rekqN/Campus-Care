@@ -5,6 +5,8 @@ import pt.ipvc.csm.R
 import pt.ipvc.csm.ui.components.statusLabel
 import pt.ipvc.csm.ui.theme.CsmTheme
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -48,7 +50,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import pt.ipvc.csm.data.local.StatusHistoryWithAuthor
+import pt.ipvc.csm.data.local.photoPaths
 import pt.ipvc.csm.ui.components.IconTile
+import pt.ipvc.csm.ui.components.PhotoViewerDialog
 import pt.ipvc.csm.ui.components.StatusChip
 import pt.ipvc.csm.ui.components.iconForKey
 import pt.ipvc.csm.ui.components.paletteFor
@@ -68,6 +72,7 @@ fun RequestDetailScreen(
     val history by historyFlow.collectAsState(initial = emptyList())
 
     var showCancelDialog by remember { mutableStateOf(false) }
+    var viewerPath by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = Modifier
@@ -116,16 +121,36 @@ fun RequestDetailScreen(
                 }
             }
 
-            if (request.photoUri != null) {
+            val photos = request.photoPaths
+            if (photos.size == 1) {
                 AsyncImage(
-                    model = File(request.photoUri),
+                    model = File(photos[0]),
                     contentDescription = "Fotografia do pedido",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(180.dp)
                         .clip(RoundedCornerShape(16.dp))
+                        .clickable { viewerPath = photos[0] }
                 )
+            } else if (photos.isNotEmpty()) {
+                Row(
+                    modifier = Modifier.horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    photos.forEach { path ->
+                        AsyncImage(
+                            model = File(path),
+                            contentDescription = "Fotografia do pedido",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .height(180.dp)
+                                .width(240.dp)
+                                .clip(RoundedCornerShape(16.dp))
+                                .clickable { viewerPath = path }
+                        )
+                    }
+                }
             }
 
             Surface(
@@ -185,6 +210,10 @@ fun RequestDetailScreen(
             }
         )
     }
+
+    viewerPath?.let { path ->
+        PhotoViewerDialog(path = path, onDismiss = { viewerPath = null })
+    }
 }
 
 @Composable
@@ -231,6 +260,14 @@ private fun StatusTimeline(history: List<StatusHistoryWithAuthor>) {
                         fontSize = 11.sp,
                         color = CsmTheme.colors.textFaint
                     )
+                    entry.entry.note?.let { note ->
+                        Text(
+                            note,
+                            fontSize = 12.5.sp,
+                            color = CsmTheme.colors.textSecondary,
+                            modifier = Modifier.padding(top = 2.dp)
+                        )
+                    }
                 }
             }
         }

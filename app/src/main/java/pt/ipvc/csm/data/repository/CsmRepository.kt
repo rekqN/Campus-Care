@@ -171,7 +171,7 @@ class CsmRepository(
         title: String,
         location: String,
         description: String,
-        photoUri: String?
+        photoPaths: List<String>
     ): OpResult {
         val now = System.currentTimeMillis()
         val requestId = requestDao.insert(
@@ -181,7 +181,7 @@ class CsmRepository(
                 title = title.trim(),
                 location = location.trim(),
                 description = description.trim(),
-                photoUri = photoUri,
+                photoUri = photoPaths.joinToString("\n").ifBlank { null },
                 status = RequestStatus.SUBMETIDO,
                 createdAt = now,
                 updatedAt = now
@@ -199,10 +199,16 @@ class CsmRepository(
         return OpResult.Success
     }
 
-    /** Admin action: set a new state and log it in the timeline. */
-    suspend fun changeStatus(requestId: Long, status: RequestStatus, byUserId: Long): OpResult {
+    /** Admin action: set a new state (optionally with a note) and log it in the timeline. */
+    suspend fun changeStatus(
+        requestId: Long,
+        status: RequestStatus,
+        byUserId: Long,
+        note: String? = null
+    ): OpResult {
         val request = requestDao.getById(requestId) ?: return OpResult.Error("Pedido não encontrado.")
-        if (request.status == status) return OpResult.Success
+        val cleanNote = note?.trim()?.ifBlank { null }
+        if (request.status == status && cleanNote == null) return OpResult.Success
         val now = System.currentTimeMillis()
         requestDao.updateStatus(requestId, status, now)
         statusHistoryDao.insert(
@@ -210,16 +216,18 @@ class CsmRepository(
                 requestId = requestId,
                 status = status,
                 changedAt = now,
-                changedByUserId = byUserId
+                changedByUserId = byUserId,
+                note = cleanNote
             )
         )
         // Notify the request's owner when someone else (an admin) changed the state.
         if (request.userId != byUserId) {
+            val base = "O teu pedido \"${request.title}\" está agora: ${status.ptLabel}."
             notificationDao.insert(
                 NotificationEntity(
                     userId = request.userId,
                     requestId = requestId,
-                    message = "O teu pedido \"${request.title}\" está agora: ${status.ptLabel}."
+                    message = if (cleanNote != null) "$base $cleanNote" else base
                 )
             )
         }

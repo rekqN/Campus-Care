@@ -72,6 +72,13 @@ data class RequestEntity(
 )
 
 /**
+ * Photos are stored as newline-separated internal file paths in [RequestEntity.photoUri],
+ * which lets a request carry more than one photo without an extra table.
+ */
+val RequestEntity.photoPaths: List<String>
+    get() = photoUri?.split("\n")?.filter { it.isNotBlank() } ?: emptyList()
+
+/**
  * One entry in a request's status timeline (HistoricoEstado): records each state change,
  * when it happened, and which account made it.
  */
@@ -98,7 +105,8 @@ data class StatusHistoryEntity(
     val requestId: Long,
     val status: RequestStatus,
     val changedAt: Long,
-    val changedByUserId: Long
+    val changedByUserId: Long,
+    val note: String? = null
 )
 
 /**

@@ -133,6 +133,7 @@
     <!-- Admin request detail -->
     <string name="by_author">%1$s · por %2$s</string>
     <string name="change_status">Alterar estado</string>
+    <string name="status_note">Nota para o utilizador (opcional)</string>
     <string name="save_changes">Guardar alterações</string>
     <string name="delete_request">Eliminar pedido</string>
     <string name="delete_request_confirm">Tens a certeza que queres eliminar este pedido? Esta ação não pode ser revertida.</string>

@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -40,6 +41,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -59,6 +61,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pt.ipvc.csm.data.local.CategoryEntity
 import pt.ipvc.csm.data.repository.OpResult
+import pt.ipvc.csm.ui.components.PhotoViewerDialog
 import pt.ipvc.csm.ui.components.PrimaryButton
 import pt.ipvc.csm.ui.components.iconForKey
 import pt.ipvc.csm.ui.theme.CsmTheme
@@ -85,19 +88,22 @@ fun NewRequestScreen(
     var title by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    var photoUri by remember { mutableStateOf<String?>(null) }
+    val photoUris = remember { mutableStateListOf<String>() }
+    var viewerPath by remember { mutableStateOf<String?>(null) }
     var expanded by remember { mutableStateOf(false) }
     var submitted by remember { mutableStateOf(false) }
     var loading by remember { mutableStateOf(false) }
     var formError by remember { mutableStateOf<String?>(null) }
 
     val photoPicker = rememberLauncherForActivityResult(
-        ActivityResultContracts.PickVisualMedia()
-    ) { uri ->
-        if (uri != null) {
+        ActivityResultContracts.PickMultipleVisualMedia(5)
+    ) { uris ->
+        if (uris.isNotEmpty()) {
             scope.launch {
-                val saved = withContext(Dispatchers.IO) { PhotoStorage.savePhoto(context, uri) }
-                if (saved != null) photoUri = saved
+                val saved = withContext(Dispatchers.IO) {
+                    uris.mapNotNull { PhotoStorage.savePhoto(context, it) }
+                }
+                photoUris.addAll(saved)
             }
         }
     }
@@ -117,7 +123,7 @@ fun NewRequestScreen(
             title = title,
             location = location,
             description = description,
-            photoUri = photoUri
+            photoPaths = photoUris.toList()
         ) { result ->
             loading = false
             when (result) {
@@ -236,16 +242,20 @@ fun NewRequestScreen(
             )
 
             Text(stringResource(R.string.photo_optional), fontSize = 12.sp, color = CsmTheme.colors.textSecondary)
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                if (photoUri != null) {
+            Row(
+                modifier = Modifier.horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                photoUris.forEach { path ->
                     Box(modifier = Modifier.size(84.dp)) {
                         AsyncImage(
-                            model = File(photoUri!!),
+                            model = File(path),
                             contentDescription = "Fotografia",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .size(84.dp)
                                 .clip(RoundedCornerShape(14.dp))
+                                .clickable { viewerPath = path }
                         )
                         Box(
                             modifier = Modifier
@@ -255,8 +265,8 @@ fun NewRequestScreen(
                                 .clip(RoundedCornerShape(50))
                                 .background(Color(0xCC14161B))
                                 .clickable {
-                                    PhotoStorage.delete(photoUri)
-                                    photoUri = null
+                                    PhotoStorage.delete(path)
+                                    photoUris.remove(path)
                                 },
                             contentAlignment = Alignment.Center
                         ) {
@@ -296,5 +306,9 @@ fun NewRequestScreen(
             )
             Spacer(Modifier.height(16.dp))
         }
+    }
+
+    viewerPath?.let { path ->
+        PhotoViewerDialog(path = path, onDismiss = { viewerPath = null })
     }
 }

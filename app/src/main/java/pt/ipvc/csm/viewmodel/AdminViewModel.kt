@@ -31,14 +31,14 @@ class AdminViewModel(private val repository: CsmRepository) : ViewModel() {
 
     fun statusHistory(id: Long): Flow<List<StatusHistoryWithAuthor>> = repository.statusHistory(id)
 
-    fun changeStatus(requestId: Long, status: RequestStatus, onResult: (OpResult) -> Unit) {
+    fun changeStatus(requestId: Long, status: RequestStatus, note: String?, onResult: (OpResult) -> Unit) {
         viewModelScope.launch {
             val adminId = repository.currentUserId.first()
             if (adminId == null) {
                 onResult(OpResult.Error("Sessão inválida."))
                 return@launch
             }
-            onResult(repository.changeStatus(requestId, status, adminId))
+            onResult(repository.changeStatus(requestId, status, adminId, note))
         }
     }
 
