@@ -79,17 +79,19 @@ class CsmRepository(
         return OpResult.Success
     }
 
-    suspend fun register(name: String, email: String, password: String, role: Role): OpResult {
+    suspend fun register(name: String, email: String, password: String): OpResult {
         val cleanEmail = email.trim().lowercase()
         if (userDao.findByEmail(cleanEmail) != null) {
             return OpResult.Error("Já existe uma conta com este email.")
         }
+        // Self-registration always creates a regular user; admin accounts are provisioned, not
+        // chosen at sign-up.
         val id = userDao.insert(
             UserEntity(
                 name = name.trim(),
                 email = cleanEmail,
                 passwordHash = PasswordHasher.hash(password),
-                role = role
+                role = Role.USER
             )
         )
         session.setLoggedInUser(id)
@@ -102,7 +104,6 @@ class CsmRepository(
         name: String,
         email: String,
         newPassword: String?,
-        role: Role,
         photoUri: String?
     ): OpResult {
         val current = userDao.getById(userId) ?: return OpResult.Error("Utilizador não encontrado.")
@@ -111,11 +112,11 @@ class CsmRepository(
         if (owner != null && owner.id != userId) {
             return OpResult.Error("Esse email já está a ser usado por outra conta.")
         }
+        // Role is intentionally not editable here — the account keeps whatever role it was given.
         userDao.update(
             current.copy(
                 name = name.trim(),
                 email = cleanEmail,
-                role = role,
                 photoUri = photoUri,
                 passwordHash = if (newPassword.isNullOrBlank()) current.passwordHash
                 else PasswordHasher.hash(newPassword)

@@ -35,11 +35,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.text.KeyboardOptions
 import pt.ipvc.csm.data.repository.OpResult
-import pt.ipvc.csm.model.Role
 import pt.ipvc.csm.ui.components.CsmPasswordField
 import pt.ipvc.csm.ui.components.CsmTextField
 import pt.ipvc.csm.ui.components.PrimaryButton
-import pt.ipvc.csm.ui.components.RoleSegmented
 import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
 import pt.ipvc.csm.ui.theme.CsmError
@@ -56,7 +54,6 @@ fun RegisterScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirm by remember { mutableStateOf("") }
-    var role by remember { mutableStateOf(Role.USER) }
     var submitted by remember { mutableStateOf(false) }
     var loading by remember { mutableStateOf(false) }
     var formError by remember { mutableStateOf<String?>(null) }
@@ -72,7 +69,7 @@ fun RegisterScreen(
         formError = null
         if (name.isBlank() || !emailValid || password.length < MIN_PASSWORD || confirm != password) return
         loading = true
-        authViewModel.register(name, email, password, role) { result ->
+        authViewModel.register(name, email, password) { result ->
             loading = false
             if (result is OpResult.Error) formError = result.message
         }
@@ -152,14 +149,6 @@ fun RegisterScreen(
                     .fillMaxWidth()
                     .padding(top = 14.dp)
             )
-
-            Text(
-                stringResource(R.string.profile_type),
-                fontSize = 12.sp,
-                color = CsmTheme.colors.textSecondary,
-                modifier = Modifier.padding(top = 18.dp, bottom = 8.dp)
-            )
-            RoleSegmented(selected = role, onSelect = { role = it })
 
             if (formError != null) {
                 Text(

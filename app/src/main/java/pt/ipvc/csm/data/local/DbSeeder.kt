@@ -29,7 +29,7 @@ object DbSeeder {
 
         // ---- Accounts ----
         val adminId = userDao.insert(
-            UserEntity(name = "Rita Campos", email = "admin@ipvc.pt",
+            UserEntity(name = "Administrador", email = "admin@ipvc.pt",
                 passwordHash = PasswordHasher.hash("admin123"), role = Role.ADMIN, createdAt = daysAgo(40.0))
         )
         val pedro = userDao.insert(

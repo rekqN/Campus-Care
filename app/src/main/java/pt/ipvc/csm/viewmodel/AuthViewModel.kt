@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import pt.ipvc.csm.data.local.UserEntity
 import pt.ipvc.csm.data.repository.CsmRepository
 import pt.ipvc.csm.data.repository.OpResult
-import pt.ipvc.csm.model.Role
 
 /** Tri-state used to drive the top-level navigation (avoids a login flash during session restore). */
 sealed interface AuthState {
@@ -58,10 +57,9 @@ class AuthViewModel(private val repository: CsmRepository) : ViewModel() {
         name: String,
         email: String,
         password: String,
-        role: Role,
         onResult: (OpResult) -> Unit
     ) {
-        viewModelScope.launch { onResult(repository.register(name, email, password, role)) }
+        viewModelScope.launch { onResult(repository.register(name, email, password)) }
     }
 
     fun updateProfile(
@@ -69,12 +67,11 @@ class AuthViewModel(private val repository: CsmRepository) : ViewModel() {
         name: String,
         email: String,
         newPassword: String?,
-        role: Role,
         photoUri: String?,
         onResult: (OpResult) -> Unit
     ) {
         viewModelScope.launch {
-            onResult(repository.updateProfile(userId, name, email, newPassword, role, photoUri))
+            onResult(repository.updateProfile(userId, name, email, newPassword, photoUri))
         }
     }
 

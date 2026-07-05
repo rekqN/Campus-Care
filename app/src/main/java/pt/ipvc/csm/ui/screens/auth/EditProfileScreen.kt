@@ -50,11 +50,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pt.ipvc.csm.data.local.UserEntity
 import pt.ipvc.csm.data.repository.OpResult
-import pt.ipvc.csm.model.Role
 import pt.ipvc.csm.ui.components.CsmPasswordField
 import pt.ipvc.csm.ui.components.CsmTextField
 import pt.ipvc.csm.ui.components.DangerPillButton
-import pt.ipvc.csm.ui.components.RoleSegmented
 import pt.ipvc.csm.ui.theme.CsmTheme
 import pt.ipvc.csm.ui.theme.CsmBlue
 import pt.ipvc.csm.ui.theme.CsmBlueContainer
@@ -81,7 +79,6 @@ fun EditProfileScreen(
     var name by remember { mutableStateOf(user.name) }
     var email by remember { mutableStateOf(user.email) }
     var newPassword by remember { mutableStateOf("") }
-    var role by remember { mutableStateOf(user.role) }
     var photoUri by remember { mutableStateOf(user.photoUri) }
     var submitted by remember { mutableStateOf(false) }
     var loading by remember { mutableStateOf(false) }
@@ -113,7 +110,6 @@ fun EditProfileScreen(
             name = name,
             email = email,
             newPassword = newPassword.ifBlank { null },
-            role = role,
             photoUri = photoUri
         ) { result ->
             loading = false
@@ -240,16 +236,6 @@ fun EditProfileScreen(
                     .fillMaxWidth()
                     .padding(top = 14.dp)
             )
-
-            Text(
-                stringResource(R.string.profile_type),
-                fontSize = 12.sp,
-                color = CsmTheme.colors.textSecondary,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 18.dp, bottom = 8.dp)
-            )
-            RoleSegmented(selected = role, onSelect = { role = it })
 
             if (formError != null) {
                 Text(
